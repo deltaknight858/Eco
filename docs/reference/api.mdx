@@ -1,0 +1,62 @@
+---
+title: API Reference
+---
+
+# API Reference
+
+Comprehensive API documentation for the Eco ecosystem.
+
+## Core APIs
+
+### Shell API
+- Navigation and routing
+- Theme and appearance management
+- Power Page registration and lifecycle
+- User session and authentication
+
+### Orchestrator API
+- Agent registration and discovery
+- Task submission and monitoring
+- Resource allocation and management
+- Workflow definition and execution
+
+### Agent APIs
+- Base agent interface and lifecycle
+- Communication protocols between agents
+- Resource request and allocation
+- Status reporting and health checks
+
+### Provenance API
+- Operation tracking and logging
+- Cryptographic sealing operations
+- Chain validation and verification
+- Audit trail access and querying
+
+## Authentication
+
+All API endpoints require valid authentication tokens:
+- **User Tokens**: For interactive operations
+- **Agent Tokens**: For automated agent operations
+- **System Tokens**: For internal system communication
+
+## Rate Limiting
+
+API calls are subject to rate limiting based on:
+- User tier and subscription level
+- Resource intensity of operations
+- Current system load
+- Historical usage patterns
+
+## Response Formats
+
+All APIs return standardized response formats:
+```typescript
+interface APIResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  timestamp: string;
+  requestId: string;
+  provenanceHash?: string;
+}
+```

@@ -1,0 +1,33 @@
+---
+title: Capsules Overview
+---
+
+# Capsules Overview
+
+Capsules are self-contained application modules that run within the Eco Shell framework.
+
+## What are Capsules?
+
+Capsules represent distinct functionality areas within the Eco ecosystem:
+- **Modular Design**: Each capsule handles a specific domain
+- **Shell Integration**: All capsules use the common Shell framework
+- **Provenance Tracking**: Operations within capsules are tracked and sealed
+- **Resource Sharing**: Capsules can communicate through the Orchestrator
+
+## Available Capsules
+
+- [Power Pages](./power-pages.mdx) - Dynamic application interfaces
+- [Wizard Capsule](./wizard-capsule.mdx) - Guided workflow interfaces
+
+## Architecture
+
+```
+┌─────────────────────────────────────┐
+│             Eco Shell               │
+├─────────────────────────────────────┤
+│  ┌─────────┐  ┌─────────┐  ┌──────┐ │
+│  │  Docs   │  │ Tracker │  │ More │ │
+│  │ Capsule │  │ Capsule │  │  ... │ │
+│  └─────────┘  └─────────┘  └──────┘ │
+└─────────────────────────────────────┘
+```

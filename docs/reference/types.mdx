@@ -1,0 +1,92 @@
+---
+title: Type Definitions
+---
+
+# Type Definitions
+
+TypeScript type definitions for the Eco ecosystem.
+
+## Core Types
+
+### Agent Types
+```typescript
+interface Agent {
+  id: string;
+  name: string;
+  version: string;
+  capabilities: string[];
+  status: AgentStatus;
+  lastHeartbeat: Date;
+}
+
+enum AgentStatus {
+  IDLE = 'idle',
+  BUSY = 'busy',
+  ERROR = 'error',
+  OFFLINE = 'offline'
+}
+```
+
+### Task Types
+```typescript
+interface Task {
+  id: string;
+  type: TaskType;
+  priority: Priority;
+  input: TaskInput;
+  output?: TaskOutput;
+  status: TaskStatus;
+  assignedAgents: string[];
+  createdAt: Date;
+  completedAt?: Date;
+  provenanceChain: ProvenanceLink[];
+}
+
+enum TaskType {
+  COMPILE = 'compile',
+  VALIDATE = 'validate',
+  TRANSFORM = 'transform',
+  ANALYZE = 'analyze'
+}
+```
+
+### Provenance Types
+```typescript
+interface ProvenanceLink {
+  id: string;
+  timestamp: Date;
+  operation: string;
+  inputHash: string;
+  outputHash: string;
+  agentSignature: string;
+  previousLink?: string;
+}
+
+interface ProvenanceSeal {
+  operationId: string;
+  finalHash: string;
+  signature: string;
+  timestamp: Date;
+  participants: string[];
+}
+```
+
+### Power Page Types
+```typescript
+interface PowerPage {
+  id: string;
+  name: string;
+  route: string;
+  component: React.ComponentType;
+  permissions: Permission[];
+  metadata: PageMetadata;
+}
+
+interface PageMetadata {
+  title: string;
+  description: string;
+  category: string;
+  tags: string[];
+  lastUpdated: Date;
+}
+```

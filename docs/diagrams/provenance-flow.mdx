@@ -1,0 +1,62 @@
+---
+title: Provenance Flow
+---
+
+# Provenance Flow
+
+Visual representation of how provenance is maintained throughout the Eco ecosystem.
+
+## Provenance Flow Diagram
+
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Request   │───▶│    Draft    │───▶│  Validation │
+│   Initiated │    │   Created   │    │    Stage    │
+└─────────────┘    └─────────────┘    └─────────────┘
+       │                  │                  │
+       ▼                  ▼                  ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  Timestamp  │    │   Author    │    │   Content   │
+│   Recorded  │    │  Signature  │    │    Hash     │
+└─────────────┘    └─────────────┘    └─────────────┘
+                           │
+                           ▼
+                 ┌─────────────┐    ┌─────────────┐
+                 │ Orchestrator│───▶│    Agent    │
+                 │  Assignment │    │  Execution  │
+                 └─────────────┘    └─────────────┘
+                           │                  │
+                           ▼                  ▼
+                 ┌─────────────┐    ┌─────────────┐
+                 │   Assist    │    │   Output    │
+                 │ Validation  │    │ Validation  │
+                 └─────────────┘    └─────────────┘
+                           │                  │
+                           └────────┬─────────┘
+                                    ▼
+                          ┌─────────────┐
+                          │ Provenance  │
+                          │    Seal     │
+                          │   Applied   │
+                          └─────────────┘
+```
+
+## Provenance Chain Elements
+
+### Initial State
+- **Request ID**: Unique identifier for the operation
+- **Timestamp**: ISO 8601 timestamp of initiation
+- **Author**: Cryptographic identity of requestor
+- **Input Hash**: SHA-256 hash of input data
+
+### Processing State
+- **Agent Assignments**: List of agents involved in processing
+- **Execution Logs**: Detailed logs of agent operations
+- **Intermediate Hashes**: Hashes of data at each transformation step
+- **Quality Metrics**: Validation scores and quality indicators
+
+### Final State
+- **Output Hash**: SHA-256 hash of final output
+- **Seal Signature**: Cryptographic signature of the complete operation
+- **Chain Link**: Reference to previous operation in the provenance chain
+- **Verification Data**: Information needed for future validation

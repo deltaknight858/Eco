@@ -1,0 +1,66 @@
+---
+title: System Architecture
+---
+
+# System Architecture
+
+High-level architecture diagram and component relationships within the Eco ecosystem.
+
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        Eco Shell                            │
+│  ┌─────────────────────────────────────────────────────────┤
+│  │                   Power Pages                           │
+│  │  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐    │
+│  │  │  Docs   │  │ Tracker │  │  Market │  │ Studio  │    │
+│  │  │ Capsule │  │ Capsule │  │ Capsule │  │ Capsule │    │
+│  │  └─────────┘  └─────────┘  └─────────┘  └─────────┘    │
+│  └─────────────────────────────────────────────────────────┤
+│                       Orchestrator                          │
+│  ┌─────────────────────────────────────────────────────────┤
+│  │                      Agents                             │
+│  │  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐    │
+│  │  │ Assist  │  │   OCR   │  │Compiler │  │Provenance│   │
+│  │  │  Agent  │  │  Agent  │  │  Agent  │  │  Agent   │    │
+│  │  └─────────┘  └─────────┘  └─────────┘  └─────────┘    │
+│  └─────────────────────────────────────────────────────────┤
+│                     Core Infrastructure                     │
+│  ┌─────────────────────────────────────────────────────────┤
+│  │  Storage    │  Networking  │  Security   │  Monitoring │ │
+│  └─────────────────────────────────────────────────────────┘
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Component Layers
+
+### Presentation Layer (Shell + Power Pages)
+- User interface and experience
+- Navigation and branding
+- Responsive design system
+- Accessibility features
+
+### Application Layer (Capsules)
+- Business logic and workflows
+- Data processing and transformation
+- User interaction handling
+- State management
+
+### Orchestration Layer
+- Agent coordination and scheduling
+- Resource allocation and management
+- Quality assurance and validation
+- Provenance tracking and sealing
+
+### Agent Layer
+- Specialized processing capabilities
+- External service integrations
+- Modular and pluggable architecture
+- Independent scaling and deployment
+
+### Infrastructure Layer
+- Cloud resources and services
+- Data persistence and backup
+- Security and compliance
+- Monitoring and observability
