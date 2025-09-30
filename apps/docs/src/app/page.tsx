@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { DocsHeader } from '../components/DocsHeader'
+import { ProvenanceNote } from '../components/ProvenanceNote'
 
 const sections = [
   { title: 'Guides', slug: 'guides/getting-started', description: 'Get started with Eco and learn the basics' },
@@ -38,6 +39,10 @@ export default function DocsIndex() {
           </Link>
         ))}
       </section>
+
+      <ProvenanceNote>
+        This documentation index showcases the complete Eco brand palette: orange for CTAs, gold for provenance, purple for structure, and cyan for emphasis.
+      </ProvenanceNote>
 
       <footer className="mt-16 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 glass-panel rounded-full">
