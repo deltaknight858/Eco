@@ -1,0 +1,30 @@
+:root {
+  /* Surfaces */
+  --surface-dark-glass: rgba(10, 10, 15, 0.7);
+  --surface-light-glass: rgba(245, 245, 250, 0.6);
+  --surface-frosted: rgba(255, 255, 255, 0.08);
+
+  /* Brand Glow */
+  --halo-cyan: #00F5FF;
+  --halo-violet: #9D4DFF;
+  --halo-magenta: #FF2ED1;
+  --halo-gold: #FFD700;
+
+  /* Backgrounds */
+  --bg-deep-space: #0A0A0F;
+  --bg-panel: #14141A;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Text */
+  --text-primary: #F5F5F7;
+  --text-muted: #9CA3AF;
+  --text-provenance: #00F5FF;
+
+  /* Shadows / Effects */
+  --glow-cyan: 0 0 24px rgba(0, 245, 255, 0.25);
+  --glow-violet: 0 0 24px rgba(157, 77, 255, 0.25);
+  --glow-magenta: 0 0 24px rgba(255, 46, 209, 0.25);
+}
