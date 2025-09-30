@@ -1,66 +1,52 @@
+import Link from 'next/link'
 import { DocsHeader } from '../components/DocsHeader'
 
-export default function DocsPage() {
+const sections = [
+  { title: 'Guides', slug: 'guides/getting-started', description: 'Get started with Eco and learn the basics' },
+  { title: 'Architecture', slug: 'architecture/overview', description: 'System design and component relationships' },
+  { title: 'Agents', slug: 'agents/overview', description: 'Specialized workers and their capabilities' },
+  { title: 'Brand', slug: 'brand/halo-ui', description: 'Design system and visual identity' },
+  { title: 'Capsules', slug: 'capsules/overview', description: 'Modular application components' },
+  { title: 'Workflows', slug: 'workflows/overview', description: 'Standardized processes and procedures' },
+  { title: 'Engineering', slug: 'engineering/coding-standards', description: 'Technical standards and practices' },
+  { title: 'Business', slug: 'business/monetization', description: 'Business model and strategy' },
+  { title: 'Diagrams', slug: 'diagrams/system-architecture', description: 'Visual system representations' },
+  { title: 'Reference', slug: 'reference/api', description: 'API documentation and type definitions' },
+]
+
+export default function DocsIndex() {
   return (
-    <div className="container mx-auto max-w-4xl py-8">
+    <main className="max-w-4xl mx-auto p-8">
       <DocsHeader />
 
-      <main className="space-y-8">
-        <section className="glass-panel p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold text-eco-violet mb-4">
-            Getting Started
-          </h2>
-          <p className="text-eco-text mb-4">
-            Eco is a comprehensive ecosystem that includes a shell interface, tracking capabilities, 
-            and marketplace functionality for the OurSynth platform.
-          </p>
-          <ul className="list-disc list-inside space-y-2 text-eco-muted">
-            <li>Shell: Core interface and navigation</li>
-            <li>Tracker: Resource and activity tracking</li>
-            <li>Marketplace: Plugin and extension marketplace</li>
-            <li>Studio: Development environment</li>
-          </ul>
-        </section>
+      <section className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {sections.map(({ title, slug, description }) => (
+          <Link
+            key={slug}
+            href={`/${slug}`}
+            className="block p-6 glass-panel rounded-lg hover:bg-eco-contrast-orange hover:text-black transition-all duration-300 group"
+          >
+            <h3 className="text-xl font-semibold mb-2 text-eco-contrast-orange group-hover:text-black">
+              {title}
+            </h3>
+            <p className="text-eco-muted text-sm group-hover:text-black/70">
+              {description}
+            </p>
+            <div className="mt-3 text-eco-contrast-orange group-hover:text-black font-mono text-sm">
+              Read more →
+            </div>
+          </Link>
+        ))}
+      </section>
 
-        <section className="glass-panel p-6 rounded-lg">
-          <h2 className="text-2xl font-semibold text-eco-magenta mb-4">
-            Core Tokens
-          </h2>
-          <p className="text-eco-text mb-4">
-            The design system is built on a foundation of core tokens that define colors, typography, and effects.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h3 className="text-lg font-semibold text-eco-gold mb-2">Brand Colors</h3>
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-eco-cyan rounded eco-glow-cyan"></div>
-                  <span className="font-mono text-sm">Cyan #00F5FF</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-eco-violet rounded eco-glow-violet"></div>
-                  <span className="font-mono text-sm">Violet #9D4DFF</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-eco-magenta rounded eco-glow-magenta"></div>
-                  <span className="font-mono text-sm">Magenta #FF2ED1</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 bg-eco-gold rounded"></div>
-                  <span className="font-mono text-sm">Gold #FFD700</span>
-                </div>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold text-eco-gold mb-2">Typography</h3>
-              <div className="space-y-2">
-                <p className="font-sans">Inter - Primary font</p>
-                <p className="font-mono">JetBrains Mono - Code font</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
+      <footer className="mt-16 text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 glass-panel rounded-full">
+          <div className="w-2 h-2 bg-eco-prestige-gold rounded-full animate-pulse"></div>
+          <span className="text-eco-prestige-gold font-mono text-sm">
+            Provenance Sealed · {new Date().toLocaleDateString()}
+          </span>
+        </div>
+      </footer>
+    </main>
   )
 }

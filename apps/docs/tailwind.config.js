@@ -12,7 +12,14 @@ module.exports = {
         'eco-panel': '#14141A',
         'eco-text': '#F5F5F7',
         'eco-muted': '#9CA3AF',
-        // Refined brand palette
+        // Refined brand palette with proper eco namespace
+        eco: {
+          purple: 'var(--eco-primary-purple)',
+          cyan: 'var(--eco-secondary-cyan)',
+          orange: 'var(--eco-contrast-orange)',
+          gold: 'var(--eco-prestige-gold)',
+        },
+        // Individual color utilities for direct use
         'eco-primary-purple': '#8E43CC',
         'eco-secondary-cyan': '#00E6C4',
         'eco-contrast-orange': '#FF5A1F',
