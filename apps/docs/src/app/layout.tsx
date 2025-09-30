@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${orbitron.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-eco-dark text-eco-text font-sans">
+      <body className="min-h-screen text-eco-text font-sans" style={{ backgroundColor: '#0A0A0F' }}>
         {children}
       </body>
     </html>

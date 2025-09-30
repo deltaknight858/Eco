@@ -1,53 +1,46 @@
-import Link from 'next/link'
-import { DocsHeader } from '../components/DocsHeader'
-import { ProvenanceNote } from '../components/ProvenanceNote'
-
-const sections = [
-  { title: 'Guides', slug: 'guides/getting-started', description: 'Get started with Eco and learn the basics' },
-  { title: 'Architecture', slug: 'architecture/overview', description: 'System design and component relationships' },
-  { title: 'Agents', slug: 'agents/overview', description: 'Specialized workers and their capabilities' },
-  { title: 'Brand', slug: 'brand/halo-ui', description: 'Design system and visual identity' },
-  { title: 'Capsules', slug: 'capsules/overview', description: 'Modular application components' },
-  { title: 'Workflows', slug: 'workflows/overview', description: 'Standardized processes and procedures' },
-  { title: 'Engineering', slug: 'engineering/coding-standards', description: 'Technical standards and practices' },
-  { title: 'Business', slug: 'business/monetization', description: 'Business model and strategy' },
-  { title: 'Diagrams', slug: 'diagrams/system-architecture', description: 'Visual system representations' },
-  { title: 'Reference', slug: 'reference/api', description: 'API documentation and type definitions' },
-]
-
 export default function DocsIndex() {
   return (
     <main className="max-w-4xl mx-auto p-8">
-      <DocsHeader />
+      <header className="text-center py-8">
+        <h1 className="text-4xl font-bold" style={{ color: '#00E6C4' }}>
+          Eco Documentation
+        </h1>
+        <p className="mt-2 text-lg" style={{ color: '#8E43CC' }}>
+          Welcome to the Eco ecosystem manual
+        </p>
+        <a
+          href="/guides/getting-started"
+          className="inline-block mt-6 px-6 py-3 rounded-lg font-bold transition-opacity duration-200"
+          style={{ backgroundColor: '#FF5A1F', color: 'black' }}
+        >
+          Get Started →
+        </a>
+      </header>
 
-      <section className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {sections.map(({ title, slug, description }) => (
-          <Link
-            key={slug}
-            href={`/${slug}`}
-            className="block p-6 glass-panel rounded-lg hover:bg-eco-contrast-orange hover:text-black transition-all duration-300 group"
-          >
-            <h3 className="text-xl font-semibold mb-2 text-eco-contrast-orange group-hover:text-black">
-              {title}
-            </h3>
-            <p className="text-eco-muted text-sm group-hover:text-black/70">
-              {description}
-            </p>
-            <div className="mt-3 text-eco-contrast-orange group-hover:text-black font-mono text-sm">
-              Read more →
-            </div>
-          </Link>
-        ))}
+      <section className="mt-12 space-y-6">
+        <div className="p-6 rounded-lg border" style={{ backgroundColor: 'rgba(10, 10, 15, 0.7)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+          <h3 className="text-xl font-semibold mb-2" style={{ color: '#FF5A1F' }}>
+            Guides
+          </h3>
+          <p className="text-sm" style={{ color: '#9CA3AF' }}>
+            Get started with Eco and learn the basics
+          </p>
+        </div>
+        
+        <div className="p-6 rounded-lg border" style={{ backgroundColor: 'rgba(10, 10, 15, 0.7)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+          <h3 className="text-xl font-semibold mb-2" style={{ color: '#FF5A1F' }}>
+            Architecture
+          </h3>
+          <p className="text-sm" style={{ color: '#9CA3AF' }}>
+            System design and component relationships
+          </p>
+        </div>
       </section>
 
-      <ProvenanceNote>
-        This documentation index showcases the complete Eco brand palette: orange for CTAs, gold for provenance, purple for structure, and cyan for emphasis.
-      </ProvenanceNote>
-
       <footer className="mt-16 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 glass-panel rounded-full">
-          <div className="w-2 h-2 bg-eco-prestige-gold rounded-full animate-pulse"></div>
-          <span className="text-eco-prestige-gold font-mono text-sm">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border" style={{ backgroundColor: 'rgba(10, 10, 15, 0.7)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#FFD447' }}></div>
+          <span className="text-sm" style={{ color: '#FFD447', fontFamily: 'monospace' }}>
             Provenance Sealed · {new Date().toLocaleDateString()}
           </span>
         </div>
