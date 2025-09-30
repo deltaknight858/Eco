@@ -1,0 +1,13 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./apps/shell" },
+    { "path": "./apps/assist" },
+    { "path": "./apps/docs" },
+    { "path": "./apps/tracker" },
+    { "path": "./apps/marketplace" },
+    { "path": "./packages/halo-ui" },
+    { "path": "./packages/core" },
+    { "path": "./packages/shared-types" }
+  ]
+}
