@@ -9,11 +9,11 @@ export default function DocsIndex() {
           Welcome to the Eco ecosystem manual
         </p>
         <a
-          href="/guides/getting-started"
+          href="/guides/contributor-first-hour"
           className="inline-block mt-6 px-6 py-3 rounded-lg font-bold transition-opacity duration-200"
           style={{ backgroundColor: '#FF5A1F', color: 'black' }}
         >
-          Get Started →
+          Start Your First Hour →
         </a>
       </header>
 

@@ -4,10 +4,82 @@ title: Contributor First Hour
 
 # Contributor First Hour
 
-This guide walks a new contributor through their first 60 minutes in Eco.
+Welcome to your first 60 minutes inside **Eco**.  
+This guide ensures you can clone, run, and contribute with provenance from the very start.
 
-1. Install dependencies
-2. Explore the Eco‑Shell
-3. Open the Docs app
-4. Create your first Power Page
-5. Commit with provenance
+---
+
+## ⏱️ 0–10 min: Setup
+
+- Clone the repo:
+  ```bash
+  git clone https://github.com/oursynth/eco.git
+  cd eco
+  ```
+
+- Install dependencies:
+  ```bash
+  pnpm install
+  ```
+
+- Start the Shell:
+  ```bash
+  pnpm dev --filter @eco/shell
+  ```
+
+<ProvenanceNote>
+Your very first pnpm install is provenance‑stamped by the lockfile. Every contributor shares the same dependency graph.
+</ProvenanceNote>
+
+## ⏱️ 10–20 min: Explore the Shell
+
+- Open `http://localhost:3000`
+- Navigate through the Eco‑Shell
+- Notice the Provenance Footer in gold — every page is sealed.
+
+<ProvenanceNote>
+The Shell is the cinematic frame. Every app, capsule, and doc lives inside it.
+</ProvenanceNote>
+
+## ⏱️ 20–40 min: Open the Docs
+
+- Run the Docs app:
+  ```bash
+  pnpm dev --filter @eco/docs
+  ```
+
+- Visit `http://localhost:3001`
+- Explore the Docs Index Power Page
+- Click through Guides, Architecture, Agents.
+
+<ProvenanceNote>
+Docs are Power Pages too. Every .mdx file is provenance‑aware.
+</ProvenanceNote>
+
+## ⏱️ 40–55 min: Make Your First Change
+
+- Edit `docs/guides/getting-started.mdx`
+- Add a line under "Getting Started"
+- Commit with provenance:
+  ```bash
+  git add docs/guides/getting-started.mdx
+  git commit -m "docs: personalize getting started guide"
+  git push origin main
+  ```
+
+<ProvenanceNote>
+Every commit is a provenance seal. Your first contribution is now part of Eco's history.
+</ProvenanceNote>
+
+## ⏱️ 55–60 min: Celebrate 🎉
+
+You've:
+- ✅ Cloned the repo
+- ✅ Installed dependencies
+- ✅ Explored the Shell
+- ✅ Opened the Docs
+- ✅ Made your first provenance‑sealed commit
+
+<ProvenanceNote>
+Welcome to Eco. You're now a contributor.
+</ProvenanceNote>
