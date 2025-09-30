@@ -1,5 +1,5 @@
 export const ProvenanceFooter = () => (
-  <footer className="p-3 border-t border-eco-primary-purple text-xs text-eco-prestige-gold">
-    Sealed with Provenance — {new Date().toLocaleString()}
+  <footer className="p-3 border-t border-eco-purple text-xs text-eco-gold text-center">
+    Provenance Seal · {new Date().toLocaleDateString()}
   </footer>
 )
