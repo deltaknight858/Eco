@@ -1,14 +1,9 @@
+import { DocsHeader } from '../components/DocsHeader'
+
 export default function DocsPage() {
   return (
     <div className="container mx-auto max-w-4xl py-8">
-      <header className="mb-12 text-center">
-        <h1 className="text-4xl font-bold text-eco-cyan mb-4 eco-glow-cyan">
-          Eco Documentation
-        </h1>
-        <p className="text-xl text-eco-muted">
-          Welcome to the Eco ecosystem documentation
-        </p>
-      </header>
+      <DocsHeader />
 
       <main className="space-y-8">
         <section className="glass-panel p-6 rounded-lg">

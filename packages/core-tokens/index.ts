@@ -5,6 +5,11 @@ export const colors = {
     frosted: 'rgba(255, 255, 255, 0.08)',
   },
   brand: {
+    primaryPurple: '#8E43CC', // Cinematic Purple
+    secondaryCyan: '#00E6C4', // Emerald‑Cyan Neon
+    contrastOrange: '#FF5A1F', // Signal Orange
+    prestigeGold: '#FFD447',   // Prestige Gold
+    // Legacy colors for backward compatibility
     cyan: '#00F5FF',
     violet: '#9D4DFF',
     magenta: '#FF2ED1',
@@ -22,6 +27,7 @@ export const colors = {
 }
 
 export const fonts = {
+  heading: "'Orbitron', system-ui, sans-serif",
   sans: "'Inter', system-ui, sans-serif",
   mono: "'JetBrains Mono', monospace",
 }
