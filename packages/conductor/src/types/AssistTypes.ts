@@ -6,6 +6,7 @@
 export type AgentType = "codegen" | "mindmap" | "docs" | "analyzer" | "orchestrator" | "capsule"
 
 export type UserTier = "bronze" | "silver" | "gold" | "platinum"
+export type ProvenanceTier = "bronze" | "silver" | "gold"
 
 export interface Agent {
   id: string

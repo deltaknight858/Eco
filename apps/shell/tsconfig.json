@@ -3,7 +3,16 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "composite": true,
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "src/**/*",

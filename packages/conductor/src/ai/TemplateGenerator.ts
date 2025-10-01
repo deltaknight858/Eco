@@ -282,6 +282,7 @@ export class TemplateGenerator {
       buildInstructions: {
         buildCommand: template.scaffold.scripts.build || 'npm run build',
         testCommand: template.scaffold.scripts.test || 'npm test',
+        commands: ['install', 'build', 'test'],
         environment: {
           node: '>=18.0.0',
           npm: '>=8.0.0'
@@ -295,7 +296,9 @@ export class TemplateGenerator {
       deploymentConfig: {
         platform: 'vercel',
         buildCommand: template.scaffold.scripts.build || 'npm run build',
-        outputDirectory: 'dist'
+        outputDirectory: 'dist',
+        configuration: {},
+        environment: {}
       },
       
       sourceCode: Object.fromEntries(fileMap),
@@ -323,6 +326,7 @@ export class TemplateGenerator {
         category: "react-component",
         aiGenerated: false,
         scaffold: {
+          files: [], // Will be populated by generateFileContents
           dependencies: [
             "react@^18.0.0",
             "typescript@^5.0.0", 
@@ -357,6 +361,7 @@ export class TemplateGenerator {
         category: "api-service",
         aiGenerated: false,
         scaffold: {
+          files: [], // Will be populated by generateFileContents
           dependencies: [
             "express@^4.18.0",
             "typescript@^5.0.0",
@@ -391,6 +396,7 @@ export class TemplateGenerator {
         category: "documentation",
         aiGenerated: false,
         scaffold: {
+          files: [], // Will be populated by generateFileContents
           dependencies: [
             "vitepress@^1.0.0",
             "vue@^3.3.0",

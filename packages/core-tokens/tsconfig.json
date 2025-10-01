@@ -1,12 +1,18 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "./dist",
-    "rootDir": ".",
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true
+    "composite": true,
+    "rootDir": "."
   },
-  "include": ["*.ts"],
-  "exclude": ["dist", "node_modules"]
+  "include": [
+    "index.ts",
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

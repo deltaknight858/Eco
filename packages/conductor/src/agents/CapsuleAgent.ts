@@ -33,7 +33,7 @@ export interface CapsuleSpec {
   sourceCode: FileMap
   assets: AssetMap
   documentation: string
-  examples: ExampleMap
+  examples: ExampleMap | Map<string, any>
   
   // Verification Metadata
   signature?: string
@@ -42,24 +42,28 @@ export interface CapsuleSpec {
 }
 
 export interface BuildSpec {
+  buildCommand?: string
+  testCommand?: string
   commands: string[]
   environment: Record<string, string>
-  outputDirectory: string
-  artifacts: string[]
+  outputDirectory?: string
+  artifacts?: string[]
 }
 
 export interface TestSpec {
-  framework: 'vitest' | 'jest' | 'playwright'
+  framework: 'vitest' | 'jest' | 'playwright' | 'cypress'
   commands: string[]
   coverage: {
     threshold: number
     include: string[]
     exclude: string[]
-  }
+  } | number
 }
 
 export interface DeploymentSpec {
   platform: 'vercel' | 'azure' | 'aws' | 'docker'
+  buildCommand?: string
+  outputDirectory?: string
   configuration: Record<string, any>
   environment: Record<string, string>
   healthCheck?: string
@@ -71,7 +75,7 @@ export interface FileMap {
     encoding: 'utf-8' | 'base64'
     size: number
     checksum: string
-  }
+  } | string
 }
 
 export interface AssetMap {
