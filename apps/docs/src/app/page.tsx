@@ -35,6 +35,17 @@ export default function DocsIndex() {
             System design and component relationships
           </p>
         </div>
+
+        <div className="p-6 rounded-lg border" style={{ backgroundColor: 'rgba(10, 10, 15, 0.7)', borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+          <a href="/business/marketplace" className="block">
+            <h3 className="text-xl font-semibold mb-2" style={{ color: '#FF5A1F' }}>
+              Marketplace
+            </h3>
+            <p className="text-sm" style={{ color: '#9CA3AF' }}>
+              Discover bronze, silver, and gold marketplace tiers
+            </p>
+          </a>
+        </div>
       </section>
 
       <footer className="mt-16 text-center">
