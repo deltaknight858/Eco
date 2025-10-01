@@ -143,21 +143,22 @@ export function AssistMindmap({
         .data(nodes)
         .join('g')
         .attr('cursor', 'pointer')
-        .call(d3.drag()
-          .on('start', (event, d: any) => {
-            if (!event.active) simulation.alphaTarget(0.3).restart()
-            d.fx = d.x
-            d.fy = d.y
-          })
-          .on('drag', (event, d: any) => {
-            d.fx = event.x
-            d.fy = event.y
-          })
-          .on('end', (event, d: any) => {
-            if (!event.active) simulation.alphaTarget(0)
-            d.fx = null
-            d.fy = null
-          })
+        .call(
+          d3.drag()
+            .on('start', (event, d: any) => {
+              if (!event.active) simulation.alphaTarget(0.3).restart()
+              d.fx = d.x
+              d.fy = d.y
+            })
+            .on('drag', (event, d: any) => {
+              d.fx = event.x
+              d.fy = event.y
+            })
+            .on('end', (event, d: any) => {
+              if (!event.active) simulation.alphaTarget(0)
+              d.fx = null
+              d.fy = null
+            }) as any // <-- Fix: cast drag behavior to any
         )
 
       // Node circles

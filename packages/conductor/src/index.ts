@@ -28,10 +28,15 @@ export type {
   ProvenanceStamp,
   AppliedLimitations,
   AgentCapability,
-  AgentSession
+  AgentSession,
+  Agent,
+  AgentMessage,
+  AgentResponse,
+  ConductorConfig
 } from './types/AssistTypes'
 
 // Convenience factory
 export function createConductor() {
+  const { ConductorService } = require('./services/ConductorService')
   return new ConductorService()
 }

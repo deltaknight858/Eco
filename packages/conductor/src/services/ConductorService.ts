@@ -19,6 +19,10 @@ import { canUserAccessAgent, getEffectiveLimitations } from '../limitations/agen
 import { ProvenanceService } from './ProvenanceService'
 
 export class ConductorService {
+  [x: string]: any
+  addAgent(type: string, config: any) {
+      throw new Error('Method not implemented.')
+  }
   private provenanceService: ProvenanceService
   private activeSessions: Map<string, number> = new Map()
   private requestCounts: Map<string, { count: number; resetAt: number }> = new Map()

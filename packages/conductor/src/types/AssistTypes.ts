@@ -3,9 +3,42 @@
  * Based on V.I.B.E/packages/agents/src/IAgent.ts
  */
 
-export type AgentType = "codegen" | "mindmap" | "docs" | "analyzer" | "orchestrator"
+export type AgentType = "codegen" | "mindmap" | "docs" | "analyzer" | "orchestrator" | "capsule"
 
 export type UserTier = "bronze" | "silver" | "gold" | "platinum"
+
+export interface Agent {
+  id: string
+  type: AgentType
+  status: 'idle' | 'active' | 'error'
+  capabilities: string[]
+  processMessage: (message: string) => Promise<AgentResponse>
+}
+
+export interface AgentMessage {
+  id: string
+  content: string
+  role: 'user' | 'assistant'
+  timestamp: Date
+  agentId?: string
+}
+
+export interface AgentResponse {
+  content: string
+  confidence: number
+  agentId: string
+  provenance?: {
+    tier: 'bronze' | 'silver' | 'gold'
+    confidence: number
+    sources?: string[]
+  }
+}
+
+export interface ConductorConfig {
+  maxAgents?: number
+  defaultTimeout?: number
+  enableLogging?: boolean
+}
 
 export interface AgentContext {
   userId: string

@@ -53,6 +53,11 @@ export function useConductor(): UseConductorReturn {
     try {
       const agent = await conductor.addAgent(type, config)
       updateActiveAgents()
+      // If addAgent does not return an Agent, fetch the agent from conductor after adding
+      if (typeof agent === 'undefined') {
+        const agents = conductor.getActiveAgents()
+        return agents[agents.length - 1]
+      }
       return agent
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to add agent'

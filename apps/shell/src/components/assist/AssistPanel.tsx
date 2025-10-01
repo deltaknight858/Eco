@@ -9,7 +9,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { cn } from '@eco/halo-components'
-import { useConductor } from '../hooks/useConductor'
+import { useConductor as useConductorHook } from '../hooks/useConductor'
 
 interface Message {
   id: string
@@ -38,7 +38,7 @@ export function AssistPanel({ isOpen, onClose, selectedAgent, className }: Assis
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   
-  const { conductor, activeAgents } = useConductor()
+  const { conductor, activeAgents } = useConductorHook()
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -167,7 +167,7 @@ export function AssistPanel({ isOpen, onClose, selectedAgent, className }: Assis
                     key={agent.id}
                     className="px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded-full border border-cyan-500/30"
                   >
-                    {agent.type}
+                    {agent.id}
                   </div>
                 ))}
               </div>
@@ -252,4 +252,37 @@ export function AssistPanel({ isOpen, onClose, selectedAgent, className }: Assis
       </div>
     </>
   )
+}
+
+export function useConductor() {
+  // ...existing code...
+
+  // Dummy conductor object for demonstration
+  const conductor = {};
+
+  // Initialize activeAgents, e.g., as an empty array or with sample data
+  const activeAgents: { id: string }[] = [];
+
+  // Add processMessage method to conductor
+  const processMessage = async (message: string, agentId?: string) => {
+    // Implement your logic here, e.g., call an API or process locally
+    // Example response structure:
+    return {
+      content: "This is a sample response.",
+      agentId: agentId ?? "default-agent",
+      provenance: {
+        tier: "silver",
+        confidence: 0.85,
+        sources: []
+      }
+    }
+  }
+
+  return {
+    conductor: {
+      ...conductor,
+      processMessage
+    },
+    activeAgents
+  }
 }
