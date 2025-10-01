@@ -271,6 +271,8 @@ export function CapsulePanel({ isOpen, onClose, onCapsuleCreated, className }: C
                   value={formData.category}
                   onChange={(e) => updateFormData({ category: e.target.value as any })}
                   className="w-full px-3 py-2 bg-slate-800/50 border border-slate-600/50 rounded-lg text-slate-200 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+                  aria-label="Select capsule category"
+                  title="Choose the type of capsule you want to create"
                 >
                   <option value="component">Component</option>
                   <option value="workflow">Workflow</option>
@@ -322,6 +324,8 @@ export function CapsulePanel({ isOpen, onClose, onCapsuleCreated, className }: C
                     value={formData.aiProvider || 'openai'}
                     onChange={(e) => updateFormData({ aiProvider: e.target.value as any })}
                     className="w-full px-3 py-2 bg-slate-800/50 border border-slate-600/50 rounded-lg text-slate-200 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+                    aria-label="Select AI provider"
+                    title="Choose the AI provider for capsule generation"
                   >
                     <option value="openai">OpenAI GPT-4</option>
                     <option value="vertex">Google Vertex AI</option>
@@ -436,6 +440,8 @@ export function CapsulePanel({ isOpen, onClose, onCapsuleCreated, className }: C
                 value={formData.testFramework}
                 onChange={(e) => updateFormData({ testFramework: e.target.value as any })}
                 className="w-full px-3 py-2 bg-slate-800/50 border border-slate-600/50 rounded-lg text-slate-200 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+                aria-label="Select test framework"
+                title="Choose the testing framework for your capsule"
               >
                 <option value="vitest">Vitest</option>
                 <option value="jest">Jest</option>
@@ -454,6 +460,8 @@ export function CapsulePanel({ isOpen, onClose, onCapsuleCreated, className }: C
                 value={formData.testCoverage}
                 onChange={(e) => updateFormData({ testCoverage: parseInt(e.target.value) })}
                 className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
+                aria-label="Test coverage threshold percentage"
+                title="Set minimum test coverage percentage"
               />
               <div className="flex justify-between text-xs text-slate-400 mt-1">
                 <span>0%</span>
@@ -498,6 +506,8 @@ export function CapsulePanel({ isOpen, onClose, onCapsuleCreated, className }: C
                 value={formData.deploymentPlatform}
                 onChange={(e) => updateFormData({ deploymentPlatform: e.target.value as any })}
                 className="w-full px-3 py-2 bg-slate-800/50 border border-slate-600/50 rounded-lg text-slate-200 focus:outline-none focus:border-cyan-400/50 focus:ring-1 focus:ring-cyan-400/20"
+                aria-label="Select deployment platform"
+                title="Choose the platform for deploying your capsule"
               >
                 <option value="vercel">Vercel</option>
                 <option value="azure">Azure Static Web Apps</option>
