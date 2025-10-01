@@ -1,0 +1,71 @@
+import { Meta, Canvas, Story } from '@storybook/blocks'
+import { HaloButton, HaloCard, HaloAlert, HaloBadge } from '../index'
+
+<Meta title="Introduction" />
+
+# 🌌 Halo-UI
+
+**Cinematic, glassmorphic, neon-accented design system for Eco apps.**
+
+Halo-UI brings the future to your fingertips with stunning visual effects, smooth animations, and a carefully crafted design language that embodies the **provenance** and innovation of the Eco ecosystem.
+
+## ✨ Features
+
+- **🔮 Glassmorphism Effects**: Beautiful frosted glass aesthetics with backdrop blur
+- **💫 Neon Accents**: Vibrant cyan highlights that pop against dark backgrounds  
+- **🎬 Cinematic Feel**: Smooth animations and professional visual polish
+- **🌊 Fluid Responsiveness**: Components that adapt gracefully to any screen size
+- **♿ Accessibility First**: Built with WCAG guidelines and semantic HTML
+- **🎨 Themeable**: Consistent design tokens for easy customization
+
+## 🚀 Quick Preview
+
+### Buttons
+
+<Canvas>
+  <div style={{ display: 'flex', gap: '1rem', padding: '1rem' }}>
+    <HaloButton variant="primary">Primary</HaloButton>
+    <HaloButton variant="secondary">Secondary</HaloButton>
+    <HaloButton variant="outline">Outline</HaloButton>
+    <HaloButton variant="ghost">Ghost</HaloButton>
+  </div>
+</Canvas>
+
+### Card
+
+<Canvas>
+  <HaloCard className="p-6 max-w-md">
+    <h3 style={{ margin: '0 0 1rem 0', color: '#00ffff' }}>Welcome to the Future</h3>
+    <p style={{ margin: 0, color: '#e2e8f0' }}>
+      This card demonstrates beautiful glassmorphism effects with subtle shadows and backdrop blur.
+    </p>
+  </HaloCard>
+</Canvas>
+
+### Alerts
+
+<Canvas>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+    <HaloAlert variant="info">This is an informational message</HaloAlert>
+    <HaloAlert variant="success">Operation completed successfully!</HaloAlert>
+    <HaloAlert variant="warning">Please review your settings</HaloAlert>
+    <HaloAlert variant="error">Something went wrong</HaloAlert>
+  </div>
+</Canvas>
+
+### Badges
+
+<Canvas>
+  <div style={{ display: 'flex', gap: '1rem' }}>
+    <HaloBadge variant="primary">Primary</HaloBadge>
+    <HaloBadge variant="secondary">Secondary</HaloBadge>
+    <HaloBadge variant="outline">Outline</HaloBadge>
+  </div>
+</Canvas>
+
+## 🎯 Next Steps
+
+1. **Explore Components**: Use the sidebar to browse individual component stories
+2. **Experiment**: Try the Controls panel to test different props
+3. **Copy Code**: Use examples to implement in your app
+4. **Build Amazing UIs**: Create the future with Halo-UI! ✨

@@ -1,0 +1,16 @@
+/* Import core tokens first */
+@import url('../../core-tokens/tokens.css');
+
+/* Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Storybook Eco Theme Styles */
+.eco-story-wrapper {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  padding: 2rem;
+  background: radial-gradient(circle at top left, #1a1a2e, #0f0f1a);
+  color: #e2e8f0;
+}
