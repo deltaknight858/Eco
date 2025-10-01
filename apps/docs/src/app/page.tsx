@@ -1,3 +1,5 @@
+import { HaloButton } from '@eco/halo-ui'
+
 export default function DocsIndex() {
   return (
     <main className="max-w-4xl mx-auto p-8">
@@ -8,13 +10,17 @@ export default function DocsIndex() {
         <p className="mt-2 text-lg" style={{ color: '#8E43CC' }}>
           Welcome to the Eco ecosystem manual
         </p>
-        <a
-          href="/guides/contributor-first-hour"
-          className="inline-block mt-6 px-6 py-3 rounded-lg font-bold transition-opacity duration-200"
+        <HaloButton 
+          variant="primary" 
+          size="lg" 
+          className="mt-6"
           style={{ backgroundColor: '#FF5A1F', color: 'black' }}
+          asChild
         >
-          Start Your First Hour →
-        </a>
+          <a href="/guides/contributor-first-hour">
+            Start Your First Hour →
+          </a>
+        </HaloButton>
       </header>
 
       <section className="mt-12 space-y-6">

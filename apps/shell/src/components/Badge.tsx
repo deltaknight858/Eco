@@ -1,18 +1,34 @@
+import { HaloBadge } from '../../../node_modules/@eco/halo-ui'
+
 interface BadgeProps {
   tier: 'bronze' | 'silver' | 'gold'
   label: string
 }
 
-const tierStyles = {
-  bronze: 'bg-gradient-to-r from-[#cd7f32] to-[#a97142] text-white',
-  silver: 'bg-gradient-to-r from-[#c0c0c0] to-[#a9a9a9] text-black',
-  gold: 'bg-gradient-to-r from-[var(--eco-prestige-gold)] to-[#e6b800] text-black',
+const tierVariants = {
+  bronze: 'secondary' as const,
+  silver: 'outline' as const,
+  gold: 'primary' as const,
+}
+
+const tierColors = {
+  bronze: '#cd7f32',
+  silver: '#c0c0c0', 
+  gold: 'var(--eco-prestige-gold)',
 }
 
 export const Badge = ({ tier, label }: BadgeProps) => (
-  <span
-    className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${tierStyles[tier]}`}
+  <HaloBadge 
+    variant={tierVariants[tier]}
+    style={{ 
+      background: tier === 'gold' 
+        ? `linear-gradient(to right, ${tierColors[tier]}, #e6b800)`
+        : tier === 'bronze'
+        ? `linear-gradient(to right, ${tierColors[tier]}, #a97142)`
+        : `linear-gradient(to right, ${tierColors[tier]}, #a9a9a9)`,
+      color: tier === 'silver' ? 'black' : 'white'
+    }}
   >
     {label}
-  </span>
+  </HaloBadge>
 )

@@ -9,6 +9,9 @@
     "lint": "turbo run lint",
     "test": "turbo run test"
   },
+  "dependencies": {
+    "eco-halo-ui": "github:deltaknight858/eco-halo-ui"
+  },
   "devDependencies": {
     "turbo": "latest",
     "typescript": "^5.3.0",
