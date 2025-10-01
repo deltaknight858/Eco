@@ -8,6 +8,16 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'outline']
+    },
+    tier: {
+      control: { type: 'select' },
+      options: [undefined, 'bronze', 'silver', 'gold']
+    }
+  }
 } satisfies Meta<typeof HaloBadge>
 
 export default meta
@@ -32,4 +42,43 @@ export const Outline: Story = {
     variant: 'outline',
     children: 'Outline',
   },
+}
+
+// Provenance Tier Stories
+export const ProvenanceBronze: Story = {
+  args: {
+    tier: 'bronze',
+    children: 'Bronze Contributor',
+  },
+}
+
+export const ProvenanceSilver: Story = {
+  args: {
+    tier: 'silver',
+    children: 'Silver Contributor',
+  },
+}
+
+export const ProvenanceGold: Story = {
+  args: {
+    tier: 'gold',
+    children: 'Gold Contributor',
+  },
+}
+
+export const ProvenanceTiers = {
+  render: () => (
+    <div className="flex gap-4 items-center">
+      <HaloBadge tier="bronze">Bronze</HaloBadge>
+      <HaloBadge tier="silver">Silver</HaloBadge>
+      <HaloBadge tier="gold">Provenance Gold</HaloBadge>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Provenance tiers automatically apply appropriate styling and effects.'
+      }
+    }
+  }
 }

@@ -1,18 +1,19 @@
 import { Meta, Canvas, Story } from '@storybook/blocks'
-import { HaloButton, HaloCard, HaloAlert, HaloBadge } from '../index'
+import { HaloButton, HaloCard, HaloAlert, HaloBadge, HaloTimeline } from '../index'
 
 <Meta title="Introduction" />
 
 # 🌌 Halo-UI
 
-**Cinematic, glassmorphic, neon-accented design system for Eco apps.**
+**Cinematic, glassmorphic, neon-accented design system for Eco apps with embedded provenance DNA.**
 
-Halo-UI brings the future to your fingertips with stunning visual effects, smooth animations, and a carefully crafted design language that embodies the **provenance** and innovation of the Eco ecosystem.
+Halo-UI brings the future to your fingertips with stunning visual effects, smooth animations, and **built-in provenance awareness** that embodies the innovation of the Eco ecosystem.
 
 ## ✨ Features
 
 - **🔮 Glassmorphism Effects**: Beautiful frosted glass aesthetics with backdrop blur
 - **💫 Neon Accents**: Vibrant cyan highlights that pop against dark backgrounds  
+- **🛡️ Embedded Provenance**: Automatic provenance stamping and tier-based styling
 - **🎬 Cinematic Feel**: Smooth animations and professional visual polish
 - **🌊 Fluid Responsiveness**: Components that adapt gracefully to any screen size
 - **♿ Accessibility First**: Built with WCAG guidelines and semantic HTML
@@ -50,22 +51,44 @@ Halo-UI brings the future to your fingertips with stunning visual effects, smoot
     <HaloAlert variant="success">Operation completed successfully!</HaloAlert>
     <HaloAlert variant="warning">Please review your settings</HaloAlert>
     <HaloAlert variant="error">Something went wrong</HaloAlert>
+    <HaloAlert variant="provenance">This capsule has been verified through Eco's provenance system.</HaloAlert>
   </div>
 </Canvas>
 
 ### Badges
 
 <Canvas>
-  <div style={{ display: 'flex', gap: '1rem' }}>
+  <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
     <HaloBadge variant="primary">Primary</HaloBadge>
     <HaloBadge variant="secondary">Secondary</HaloBadge>
     <HaloBadge variant="outline">Outline</HaloBadge>
+    <HaloBadge tier="bronze">Bronze Contributor</HaloBadge>
+    <HaloBadge tier="silver">Silver Contributor</HaloBadge>
+    <HaloBadge tier="gold">Provenance Gold</HaloBadge>
   </div>
+</Canvas>
+
+### Provenance Timeline
+
+<Canvas>
+  <HaloTimeline provenanceSteps currentStep="Verified" />
 </Canvas>
 
 ## 🎯 Next Steps
 
 1. **Explore Components**: Use the sidebar to browse individual component stories
-2. **Experiment**: Try the Controls panel to test different props
-3. **Copy Code**: Use examples to implement in your app
-4. **Build Amazing UIs**: Create the future with Halo-UI! ✨
+2. **Test Provenance Features**: Try the tier badges and provenance alerts
+3. **Experiment**: Use the Controls panel to test different props
+4. **Copy Code**: Use examples to implement in your app
+5. **Build Amazing UIs**: Create the future with embedded provenance! ✨
+
+## 🛡️ Provenance Features
+
+Halo-UI now includes **automatic provenance stamping**:
+
+- **Tier Badges**: Bronze, Silver, and Gold contributor recognition
+- **Provenance Alerts**: Auto-verified notifications with gold styling
+- **Timeline Components**: Built-in provenance milestones
+- **Debug Metadata**: Automatic component stamping for development
+
+Provenance isn't just a footer anymore—it's woven into the fabric of every component! 🌌
