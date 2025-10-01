@@ -1,4 +1,4 @@
-import { HaloCard } from '@eco/halo-ui'
+import { HaloCard } from '@eco/halo-components'
 import { Badge } from '../../../shell/src/components/Badge'
 
 interface MarketplaceCardProps {

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@eco/core-tokens": "workspace:*",
+    "@eco/halo-components": "workspace:*",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^15.5.4",

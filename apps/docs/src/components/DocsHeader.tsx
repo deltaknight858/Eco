@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { HaloButton } from '@eco/halo-ui'
+import { HaloButton } from '@eco/halo-components'
 
 export const DocsHeader = () => (
   <header className="text-center py-8">

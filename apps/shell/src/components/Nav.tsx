@@ -1,4 +1,4 @@
-import { HaloButton } from '@eco/halo-ui'
+import { HaloButton } from '@eco/halo-components'
 
 export const Nav = () => (
   <nav className="flex items-center gap-4 p-4 border-b border-eco-cyan">

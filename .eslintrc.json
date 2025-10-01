@@ -1,1 +1,7 @@
-{\n  "root": true,\n  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "next/core-web-vitals"],\n  "parser": "@typescript-eslint/parser",\n  "plugins": ["@typescript-eslint"],\n  "ignorePatterns": ["node_modules", "dist", ".next"]\n}
+{
+  "root": true,
+  "extends": ["eslint:recommended", "@typescript-eslint/recommended", "next/core-web-vitals"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["node_modules", "dist", ".next"]
+}

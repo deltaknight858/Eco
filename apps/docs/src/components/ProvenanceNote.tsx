@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { HaloAlert } from '@eco/halo-ui'
+import { HaloAlert } from '@eco/halo-components'
 
 interface ProvenanceNoteProps {
   children: ReactNode

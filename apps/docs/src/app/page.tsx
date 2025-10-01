@@ -1,4 +1,4 @@
-import { HaloButton } from '@eco/halo-ui'
+import { HaloButton } from '@eco/halo-components'
 
 export default function DocsIndex() {
   return (

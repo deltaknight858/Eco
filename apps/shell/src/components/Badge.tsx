@@ -1,4 +1,4 @@
-import { HaloBadge } from '../../../node_modules/@eco/halo-ui'
+import { HaloBadge } from '@eco/halo-components'
 
 interface BadgeProps {
   tier: 'bronze' | 'silver' | 'gold'

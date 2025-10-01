@@ -30,6 +30,9 @@ importers:
       '@eco/core-tokens':
         specifier: workspace:*
         version: link:../../packages/core-tokens
+      '@eco/halo-components':
+        specifier: workspace:*
+        version: link:../../packages/halo-components
       '@mdx-js/loader':
         specifier: ^3.1.1
         version: 3.1.1
@@ -80,7 +83,72 @@ importers:
         specifier: ^5.3.0
         version: 5.9.2
 
+  apps/shell:
+    dependencies:
+      '@eco/core-tokens':
+        specifier: workspace:*
+        version: link:../../packages/core-tokens
+      '@eco/halo-components':
+        specifier: workspace:*
+        version: link:../../packages/halo-components
+      next:
+        specifier: 14.2.13
+        version: 14.2.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.16.10
+        version: 20.19.18
+      '@types/react':
+        specifier: ^18.3.11
+        version: 18.3.25
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.7(@types/react@18.3.25)
+      autoprefixer:
+        specifier: ^10.4.20
+        version: 10.4.21(postcss@8.5.6)
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.1
+      eslint-config-next:
+        specifier: 14.2.13
+        version: 14.2.13(eslint@8.57.1)(typescript@5.9.2)
+      postcss:
+        specifier: ^8.4.47
+        version: 8.5.6
+      tailwindcss:
+        specifier: ^3.4.13
+        version: 3.4.17
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.2
+
   packages/core-tokens: {}
+
+  packages/halo-components:
+    dependencies:
+      react:
+        specifier: ^18.0.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.0.0
+        version: 18.3.1(react@18.3.1)
+    devDependencies:
+      '@types/react':
+        specifier: ^18.3.11
+        version: 18.3.25
+      '@types/react-dom':
+        specifier: ^18.3.1
+        version: 18.3.7(@types/react@18.3.25)
+      typescript:
+        specifier: ^5.3.0
+        version: 5.9.2
 
 packages:
 
