@@ -6,6 +6,8 @@
 import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
 import type { Agent, AgentResponse, AgentType } from '../types/AssistTypes'
+import { MarketplaceService } from '../services/MarketplaceService'
+import { TemplateGenerator } from '../ai/TemplateGenerator'
 
 // Enhanced Capsule Interfaces
 export interface CapsuleSpec {
@@ -319,16 +321,21 @@ export class CapsuleAgent implements Agent {
     'verify_capsule',
     'publish_capsule',
     'scaffold_template',
-    'generate_ai_capsule'
+    'generate_ai_capsule',
+    'search_marketplace',
+    'publish_to_marketplace',
+    'get_marketplace_analytics'
   ]
   
   private capsules: Map<string, CapsuleResponse> = new Map()
-  
+  private marketplace: MarketplaceService
+  private templateGenerator: TemplateGenerator
+
   constructor() {
     this.id = uuidv4()
-  }
-
-  async processMessage(message: string): Promise<AgentResponse> {
+    this.marketplace = new MarketplaceService()
+    this.templateGenerator = new TemplateGenerator()
+  }  async processMessage(message: string): Promise<AgentResponse> {
     this.status = 'active'
     
     try {
@@ -352,6 +359,12 @@ export class CapsuleAgent implements Agent {
           return await this.handleListCapsules()
         case 'status':
           return await this.handleCapsuleStatus(command.params)
+        case 'search':
+          return await this.handleSearchMarketplace(command.params)
+        case 'marketplace':
+          return await this.handleMarketplacePublish(command.params)
+        case 'analytics':
+          return await this.handleMarketplaceAnalytics()
         default:
           throw new Error(`Unknown command: ${command.action}`)
       }
@@ -991,5 +1004,123 @@ export class CapsuleAgent implements Agent {
       agentId: this.id,
       provenance: { tier: 'silver', confidence: 0.9 }
     }
+  }
+
+  /**
+   * Search marketplace for capsules
+   */
+  private async handleSearchMarketplace(params: any): Promise<AgentResponse> {
+    const query = params.query || ''
+    const filters = params.filters || {}
+
+    const searchResults = await this.marketplace.searchCapsules({
+      query,
+      ...filters
+    })
+
+    return {
+      content: `Found ${searchResults.totalCount} capsules matching "${query}":
+
+**Featured Capsules:**
+${searchResults.featured.slice(0, 3).map(listing => 
+  `• **${listing.title}** (${listing.category}) - ${listing.downloads} downloads, ⭐ ${this.getAverageRating(listing).toFixed(1)}`
+).join('\n')}
+
+**Search Results:**
+${searchResults.listings.slice(0, 5).map(listing => 
+  `• **${listing.title}** by ${listing.publisher.name} - ${listing.pricing.model === 'free' ? 'Free' : `$${listing.pricing.price}`}`
+).join('\n')}
+
+Use "marketplace install <capsule-id>" to install a capsule.`,
+      confidence: 0.95,
+      agentId: this.id,
+      provenance: {
+        tier: 'silver',
+        confidence: 0.95,
+        sources: ['marketplace-search', 'capsule-database']
+      }
+    }
+  }
+
+  /**
+   * Publish capsule to marketplace
+   */
+  private async handleMarketplacePublish(params: any): Promise<AgentResponse> {
+    const capsuleName = params.name
+    if (!capsuleName) {
+      throw new Error('Capsule name required for marketplace publishing')
+    }
+
+    const capsule = this.capsules.get(capsuleName)
+    if (!capsule) {
+      throw new Error(`Capsule "${capsuleName}" not found`)
+    }
+
+    // Publish to marketplace
+    const listing = await this.marketplace.publishCapsule(capsule.spec, {
+      id: 'user-123', // In real implementation, get from auth context
+      name: 'Developer',
+      verified: false
+    })
+
+    return {
+      content: `Successfully published "${capsule.spec.name}" to the marketplace! 🎉
+
+**Listing Details:**
+• **ID:** ${listing.id}
+• **Category:** ${listing.category}
+• **Status:** ${listing.status}
+• **Moderation:** ${listing.moderationStatus}
+
+Your capsule is now under review and will be available publicly once approved.
+Track your listing at: marketplace/listings/${listing.id}`,
+      confidence: 0.9,
+      agentId: this.id,
+      provenance: {
+        tier: 'gold',
+        confidence: 0.9,
+        sources: ['marketplace-api', 'capsule-verification']
+      }
+    }
+  }
+
+  /**
+   * Get marketplace analytics
+   */
+  private async handleMarketplaceAnalytics(): Promise<AgentResponse> {
+    const analytics = await this.marketplace.getMarketplaceAnalytics()
+
+    return {
+      content: `**Marketplace Analytics** 📊
+
+**Overview:**
+• Total Listings: ${analytics.totalListings}
+• Total Downloads: ${analytics.totalDownloads.toLocaleString()}
+• Average Rating: ⭐ ${analytics.averageRating.toFixed(1)}/5.0
+
+**Top Categories:**
+${analytics.topCategories.slice(0, 5).map(cat => 
+  `• ${cat.category}: ${cat.count} capsules`
+).join('\n')}
+
+**Recent Activity:**
+${analytics.recentActivity.slice(0, 3).map(activity => 
+  `• ${activity.eventType} on "${activity.listingTitle}" - ${new Date(activity.timestamp).toLocaleDateString()}`
+).join('\n')}
+
+The marketplace is growing with high-quality, provenance-verified capsules! 🚀`,
+      confidence: 0.92,
+      agentId: this.id,
+      provenance: {
+        tier: 'gold',
+        confidence: 0.92,
+        sources: ['marketplace-analytics', 'real-time-data']
+      }
+    }
+  }
+
+  private getAverageRating(listing: any): number {
+    if (!listing.ratings || listing.ratings.length === 0) return 0
+    return listing.ratings.reduce((sum: number, rating: any) => sum + rating.rating, 0) / listing.ratings.length
   }
 }
