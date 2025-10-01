@@ -252,7 +252,7 @@ export class SuggestionEngine {
       suggestions.push(...await this.generateStyleCompletions(context, prefix))
     }
 
-    if (context.currentFile?.includes('test')) {
+    if (context.currentFile && context.currentFile.indexOf('test') !== -1) {
       suggestions.push(...await this.generateTestCompletions(context, prefix))
     }
 
@@ -501,10 +501,10 @@ export class SuggestionEngine {
   private analyzeCodeContext(context: SuggestionContext, prefix: string): any {
     // Analyze the code context around the cursor position
     return {
-      inFunction: prefix.includes('function') || prefix.includes('=>'),
-      inClass: prefix.includes('class'),
-      inImport: prefix.includes('import'),
-      inJSX: prefix.includes('<') || prefix.includes('React'),
+      inFunction: prefix.indexOf('function') !== -1 || prefix.indexOf('=>') !== -1,
+      inClass: prefix.indexOf('class') !== -1,
+      inImport: prefix.indexOf('import') !== -1,
+      inJSX: prefix.indexOf('<') !== -1 || prefix.indexOf('React') !== -1,
       depth: (prefix.match(/{/g) || []).length - (prefix.match(/}/g) || []).length
     }
   }
@@ -538,7 +538,7 @@ export class SuggestionEngine {
     }
 
     // TypeScript interface suggestions
-    if (prefix.includes('interface') || prefix.includes('type')) {
+    if (prefix.indexOf('interface') !== -1 || prefix.indexOf('type') !== -1) {
       suggestions.push({
         id: uuidv4(),
         type: 'code-completion',

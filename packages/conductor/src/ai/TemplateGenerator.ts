@@ -833,7 +833,7 @@ npm test
 
   private extractTagsFromPrompt(prompt: string): string[] {
     const commonTags = ['react', 'api', 'service', 'component', 'ui', 'workflow', 'automation']
-    return commonTags.filter(tag => prompt.toLowerCase().includes(tag))
+    return commonTags.filter(tag => prompt.toLowerCase().indexOf(tag) !== -1)
   }
 
   private generateParametersFromRequest(request: AIGenerationRequest): TemplateParameter[] {
