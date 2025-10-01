@@ -1,0 +1,167 @@
+# 🌌 Halo-UI Design System
+
+**Cinematic, glassmorphic, neon-accented components for the Eco ecosystem.**
+
+Halo-UI is our comprehensive design system that brings futuristic aesthetics and professional polish to every Eco application. Built with React 18, TypeScript, and modern CSS techniques, it provides the building blocks for creating stunning user interfaces.
+
+## ✨ Features
+
+- **🔮 Glassmorphism Effects**: Beautiful frosted glass aesthetics with backdrop blur
+- **💫 Neon Accents**: Vibrant cyan highlights that complement dark themes  
+- **🎬 Cinematic Feel**: Smooth animations and professional visual polish
+- **🌊 Fluid Responsiveness**: Components adapt gracefully to any screen size
+- **♿ Accessibility First**: Built with WCAG guidelines and semantic HTML
+- **🎨 Themeable**: Consistent design tokens for easy customization
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# In your Eco workspace package
+pnpm add @eco/halo-components
+
+# Or from the external GitHub package
+pnpm add github:deltaknight858/eco-halo-ui
+```
+
+### Basic Usage
+
+```tsx
+import { HaloButton, HaloCard, HaloAlert } from '@eco/halo-components'
+
+function App() {
+  return (
+    <div className="space-y-4">
+      <HaloButton variant="primary">
+        Get Started
+      </HaloButton>
+      
+      <HaloCard className="p-6">
+        <h2>Welcome to Halo-UI</h2>
+        <p>Experience the future of web interfaces.</p>
+      </HaloCard>
+      
+      <HaloAlert type="success">
+        Components loaded successfully!
+      </HaloAlert>
+    </div>
+  )
+}
+```
+
+## 📚 Component Library
+
+### Core Components
+
+- **HaloButton** - Interactive buttons with multiple variants
+  - `primary` - Main call-to-action with orange gradient
+  - `secondary` - Secondary actions with purple gradient  
+  - `outline` - Outlined style with neon border
+  - `ghost` - Minimal style for subtle interactions
+
+- **HaloCard** - Content containers with glassmorphism effects
+  - Backdrop blur and subtle shadows
+  - Responsive padding and spacing
+  - Perfect for highlighting content sections
+
+- **HaloAlert** - Contextual message components
+  - `info`, `success`, `warning`, `error` types
+  - Consistent styling with appropriate color coding
+  - Clear typography and spacing
+
+- **HaloBadge** - Small indicator components
+  - `default`, `premium`, `enterprise` variants
+  - Tier-specific styling and colors
+  - Compact design for status indication
+
+## 🎨 Interactive Preview
+
+**🔗 [Open Storybook](http://localhost:6006)** to explore components interactively!
+
+Our Storybook environment provides:
+- **Live Component Playground**: Test all variants and props
+- **Documentation**: Complete API reference for each component
+- **Cinematic Backgrounds**: See components in their natural Eco environment
+- **Copy Code Examples**: Get implementation-ready code snippets
+
+### Running Storybook Locally
+
+```bash
+# Navigate to the halo-components package
+cd packages/halo-components
+
+# Start the Storybook development server
+pnpm storybook
+
+# Opens at http://localhost:6006
+```
+
+## 🎯 Design Principles
+
+### Provenance-Aware Design
+Every component embodies the **provenance** philosophy:
+- **Transparency**: Visual clarity and honest communication
+- **Authenticity**: Genuine interactions without deceptive patterns
+- **Trust**: Reliable, predictable behavior across all components
+
+### Performance-First Architecture
+- **React 18 Optimized**: Leverages concurrent features and Suspense
+- **TypeScript Native**: Full type safety and excellent DX
+- **Tree-Shakeable**: Import only what you need
+- **Minimal Bundle Impact**: Optimized for fast loading
+
+### Developer Experience
+- **Intuitive APIs**: Props that make sense and follow conventions
+- **Comprehensive TypeScript**: IntelliSense and error prevention
+- **Flexible Composition**: Components work well together
+- **Easy Customization**: Override styles without fighting the framework
+
+## 🛠️ Advanced Usage
+
+### Custom Styling
+
+All components accept a `className` prop for custom styling:
+
+```tsx
+<HaloButton 
+  variant="outline" 
+  className="w-full md:w-auto hover:shadow-2xl"
+>
+  Custom Styled Button
+</HaloButton>
+```
+
+### Theme Integration
+
+Components are designed to work with the Eco design token system:
+
+```css
+/* Your app's CSS */
+@import '@eco/core-tokens/tokens.css';
+
+.my-custom-component {
+  background: var(--eco-dark);
+  color: var(--eco-text);
+  border: 1px solid var(--eco-accent);
+}
+```
+
+## 🔄 Contributing
+
+Halo-UI is actively developed and maintained. To contribute:
+
+1. **Explore Storybook**: Understand current components and patterns
+2. **Follow Design Tokens**: Use established colors, spacing, and typography
+3. **Maintain Accessibility**: Ensure WCAG compliance in all additions
+4. **Test Thoroughly**: Verify components work across different states and props
+
+## 📖 Resources
+
+- **[Component Stories](http://localhost:6006)**: Interactive Storybook documentation
+- **[GitHub Repository](https://github.com/deltaknight858/eco)**: Source code and issues
+- **[Design Tokens](/docs/design-tokens)**: Color palette and spacing system
+
+---
+
+**Ready to build cinematic UIs?** Start with our **[Storybook playground](http://localhost:6006)** and experience the magic of Halo-UI firsthand! ✨

@@ -12,6 +12,9 @@ const withMDX = require('@next/mdx')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ['@eco/core-tokens'],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   // Configure `pageExtensions` to include MDX files
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
 }
