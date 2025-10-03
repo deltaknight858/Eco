@@ -23,7 +23,8 @@ export function AssistLauncher({ onOpenPanel, isActive = false, className }: Ass
     { id: 'codegen', icon: '🤖', label: 'Code Gen', description: 'Generate code and components' },
     { id: 'mindmap', icon: '🧠', label: 'Mind Map', description: 'Visualize relationships' },
     { id: 'docs', icon: '📚', label: 'Docs', description: 'Documentation assistance' },
-    { id: 'analyzer', icon: '🔍', label: 'Analyze', description: 'Code analysis and insights' }
+    { id: 'analyzer', icon: '🔍', label: 'Analyze', description: 'Code analysis and insights' },
+    { id: 'pathways', icon: '🧙‍♂️', label: 'Pathways', description: 'Guided journey navigation' }
   ]
 
   const handleAgentSelect = (agentId: string) => {
@@ -86,7 +87,7 @@ export function AssistLauncher({ onOpenPanel, isActive = false, className }: Ass
         />
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes slideInRadial {
           from {
             opacity: 0;

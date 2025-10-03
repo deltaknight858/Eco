@@ -9,6 +9,9 @@
 export { ConductorService } from './services/ConductorService'
 export { ProvenanceService } from './services/ProvenanceService'
 
+// Agents
+export { default as PathwaysAgent } from './agents/PathwaysAgent'
+
 // Agent limitations
 export { 
   agentLimitations, 
@@ -21,6 +24,7 @@ export {
 export type {
   AgentType,
   UserTier,
+  ProvenanceTier,
   AgentContext,
   AgentLimitations,
   AssistRequest,
@@ -34,6 +38,17 @@ export type {
   AgentResponse,
   ConductorConfig
 } from './types/AssistTypes'
+
+// Pathways Types
+export type {
+  PathwayDefinition,
+  PathwayStep,
+  PathwaySuggestion,
+  UserContext,
+  ProvenanceContext,
+  JourneySession,
+  PathwayMilestone
+} from './agents/PathwaysAgent'
 
 // Convenience factory
 export function createConductor() {

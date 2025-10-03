@@ -1,9 +1,6 @@
 /**
  * Assist components index
- * Exports all assist-related components
+ * Exports assist-related primitives used across the Shell app.
  */
-
 export { AssistLauncher } from './AssistLauncher'
-export { AssistPanel } from './AssistPanel'
-export { AssistMindmap } from './AssistMindmap'
-export { AssistDemo } from './AssistDemo'
+export { RadialCommandCenter } from './RadialCommandCenter'
