@@ -111,6 +111,8 @@ export interface PathwaySuggestion {
   estimatedDuration: number
   recommendedTier: ProvenanceTier
   priority: number
+  capsuleId?: string
+  agentIds?: string[]
 }
 
 export interface UserContext {
@@ -121,9 +123,8 @@ export interface UserContext {
   timeOnCurrentPage: number
   lastActivity: string
   skills: string[]
-  preferences: Record<string, any>
+  preferences: Record<string, unknown>
   requestedGuidance: boolean
   showHints: boolean
 }
 
-export default {}

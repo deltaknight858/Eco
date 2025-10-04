@@ -3,7 +3,14 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "composite": true,
-    "incremental": true
+    "incremental": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "src/**/*",

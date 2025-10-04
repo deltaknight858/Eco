@@ -1,0 +1,8 @@
+{
+  "determinism": {
+    "seed": 1337,
+    "promptSnapshot": "sha256:...prompt",
+    "toolConfig": { "temperature": 0.2, "topP": 0.9 },
+    "policyRefs": ["covenant@1.0", "gates@2025-10-03"]
+  }
+}

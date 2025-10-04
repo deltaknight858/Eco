@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oursynth.local/specs/provenance-stamp.schema.json",
+  "title": "ProvenanceStampV1",
+  "type": "object",
+  "required": [
+    "stampVersion",
+    "artifactId",
+    "tier",
+    "signedBy",
+    "signatures",
+    "sbom",
+    "chaos",
+    "observability"
+  ],
+  "properties": {
+    "stampVersion": { "type": "string" },
+    "artifactId": { "type": "string" },
+    "tier": { "type": "string", "enum": ["bronze", "silver", "gold", "Bronze", "Silver", "Gold"] },
+    "signedBy": {
+      "type": "object",
+      "required": ["agent", "conductor"],
+      "properties": {
+        "agent": { "type": "string" },
+        "conductor": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "signatures": {
+      "type": "object",
+      "required": ["agent", "conductor"],
+      "properties": {
+        "agent": { "type": "string" },
+        "conductor": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "sbom": { "type": "string" },
+    "chaos": {
+      "type": "object",
+      "required": ["smoke", "rollbackScript", "rehearsalAt"],
+      "properties": {
+        "smoke": { "type": "string" },
+        "rollbackScript": { "type": "string" },
+        "rehearsalAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "observability": {
+      "type": "object",
+      "required": ["dashboardsPatched", "sloImpact", "alertsUpdated"],
+      "properties": {
+        "dashboardsPatched": { "type": "boolean" },
+        "sloImpact": { "type": "string" },
+        "alertsUpdated": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

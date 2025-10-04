@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oursynth.local/specs/agent-contract.schema.json",
+  "title": "AgentContractV1",
+  "type": "object",
+  "required": ["agentId", "task", "intent", "inputs"],
+  "properties": {
+    "version": { "type": "string", "default": "1.0" },
+    "agentId": { "type": "string" },
+    "intent": { "type": "string" },
+    "capsuleId": { "type": ["string", "null"] },
+    "task": {
+      "type": "object",
+      "required": ["id", "type"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string" },
+        "constraints": { "type": "object", "additionalProperties": true },
+        "acceptanceCriteria": { "type": "array", "items": { "type": "string" } },
+        "deadlineMs": { "type": ["number", "null"] }
+      }
+    },
+    "inputs": { "type": "object", "additionalProperties": true },
+    "attachments": { "type": "array", "items": {"type": "string"} },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "startTs": { "type": "number" },
+        "estimatedCost": { "type": "number" },
+        "modelHints": { "type": "object" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

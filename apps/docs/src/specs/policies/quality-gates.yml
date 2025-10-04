@@ -1,0 +1,33 @@
+version: 0.1
+
+bronze:
+  build: true
+  lint: true
+  unit:
+    scope: changed
+    required: true
+  provenance:
+    memoryNode: true
+  sbom: true
+
+silver:
+  coverage:
+    changedLines: 0.8
+  security:
+    secrets: true
+    vulnerability: high-or-above-forbidden
+  performance:
+    budgets:
+      web:
+        lcp_ms: 2500
+        bundle_kb: 250
+  capsule:
+    required: true
+
+gold:
+  smoke: true
+  rollback: rehearsed
+  observability:
+    dashboardsUpdated: true
+  provenance:
+    countersign: true
