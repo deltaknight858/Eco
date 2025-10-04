@@ -1,0 +1,18 @@
+{
+  "kairosVersion": "1.0",
+  "moment": "nearFailure",
+  "context": {
+    "agentId": "xanadu-07",
+    "taskId": "T-....",
+    "gate": "Silver",
+    "proximity": 0.04
+  },
+  "invocation": {
+    "refineContract": {
+      "taskType": "refine",
+      "originalTaskRef": "T-....",
+      "failedResultRef": "R-....",
+      "constraints": { "timeboxMs": 600000, "mustAddTests": true }
+    }
+  }
+}

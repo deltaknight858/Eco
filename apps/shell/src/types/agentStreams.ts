@@ -10,6 +10,8 @@ export type AgentEventType =
 
 export type AgentEventSeverity = 'info' | 'warning' | 'error' | 'success'
 
+export type AgentStreamTransport = 'mock' | 'websocket' | 'sse'
+
 export interface AgentEvent {
   id: string
   type: AgentEventType
@@ -17,7 +19,7 @@ export interface AgentEvent {
   capsuleId?: string
   payload: Record<string, any>
   timestamp: number
-  severity: AgentEventSeverity
+  severity?: AgentEventSeverity
   provenanceTier?: ProvenanceTier
 }
 
@@ -41,12 +43,18 @@ export interface AgentStreamOptions {
   realtime?: boolean
   bufferSize?: number
   throttleMs?: number
+  transport?: AgentStreamTransport
+  reconnectInterval?: number
 }
 
 export interface ConnectionStatus {
   connected: boolean
   quality: number
   lastUpdated: number
+  transport: AgentStreamTransport
+  latency?: number
+  mode: 'live' | 'demo'
+  reconnectAttempts: number
 }
 
 export type EventCallback = (event: AgentEvent) => void
@@ -64,5 +72,25 @@ export interface StreamSubscription {
 
 export interface PathwayStepProgress {
   progress: number
+  lastUpdated: number
+}
+
+export interface AgentStreamConfiguration {
+  transport: AgentStreamTransport
+  websocketUrl?: string
+  sseUrl?: string
+  reconnectInterval: number
+  maxBuffer: number
+  demoMode: boolean
+  headers?: Record<string, string>
+}
+
+export interface AgentActivitySnapshot {
+  agentId: string
+  intensity: number
+  lastEvent?: AgentEvent
+  severity?: AgentEventSeverity
+  status?: AgentStatus['state']
+  provenanceTier?: ProvenanceTier
   lastUpdated: number
 }

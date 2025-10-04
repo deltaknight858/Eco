@@ -6,16 +6,16 @@ export default function MarketplacePage() {
   return (
     <main className="max-w-4xl mx-auto p-8">
       <header className="text-center py-8">
-        <h1 className="text-4xl font-bold" style={{ color: '#00E6C4' }}>
+        <h1 className="text-4xl font-bold text-teal-300">
           Eco Marketplace
         </h1>
-        <p className="mt-2 text-lg" style={{ color: '#8E43CC' }}>
+        <p className="mt-2 text-lg text-purple-400">
           Discover, share, and trade AI agents, capsules, and Power Pages
         </p>
       </header>
 
       <section className="mt-12">
-        <h2 className="text-2xl font-bold mb-6" style={{ color: '#FF5A1F' }}>
+        <h2 className="text-2xl font-bold mb-6 text-orange-400">
           Marketplace Tiers
         </h2>
         
@@ -40,7 +40,7 @@ export default function MarketplacePage() {
       </section>
 
       <section className="mt-12">
-        <h2 className="text-2xl font-bold mb-6" style={{ color: '#FF5A1F' }}>
+        <h2 className="text-2xl font-bold mb-6 text-orange-400">
           Featured Marketplace Items
         </h2>
         
@@ -79,13 +79,9 @@ export default function MarketplacePage() {
       </section>
 
       <footer className="mt-16 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border" 
-             style={{ 
-               backgroundColor: 'rgba(10, 10, 15, 0.7)', 
-               borderColor: 'rgba(255, 255, 255, 0.1)' 
-             }}>
-          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#FFD447' }}></div>
-          <span className="text-sm" style={{ color: '#FFD447', fontFamily: 'monospace' }}>
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-slate-900/80">
+          <div className="w-2 h-2 rounded-full bg-amber-300"></div>
+          <span className="text-sm text-amber-300 font-mono">
             Marketplace Provenance Sealed · {new Date().toLocaleDateString()}
           </span>
         </div>

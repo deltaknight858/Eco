@@ -1,33 +1,38 @@
 import { ProvenanceNote } from '../../../components/ProvenanceNote'
 
+const CODE_BLOCK_CLASSES = 'bg-slate-900/90 p-4 rounded-lg text-sm font-mono border border-white/10'
+
 export default function ContributorFirstHour() {
   return (
     <main className="max-w-4xl mx-auto p-8 prose prose-invert">
-      <h1 style={{ color: '#00E6C4' }}>Contributor First Hour</h1>
-      
-      <p>Welcome to your first 60 minutes inside <strong>Eco</strong>.<br />
-      This guide ensures you can clone, run, and contribute with provenance from the very start.</p>
-      
+      <h1 className="text-teal-300">Contributor First Hour</h1>
+
+      <p>
+        Welcome to your first 60 minutes inside <strong>Eco</strong>.<br />
+        This guide ensures you can clone, run, and contribute with provenance from the very start.
+      </p>
+
       <hr />
-      
+
       <h2>⏱️ 0–10 min: Setup</h2>
-      
+
       <ul>
-        <li>Clone the repo:
-          <pre style={{ backgroundColor: '#1a1a1a', padding: '1rem', borderRadius: '0.5rem', fontSize: '0.9rem' }}>
+        <li>
+          Clone the repo:
+          <pre className={CODE_BLOCK_CLASSES}>
             <code>{`git clone https://github.com/oursynth/eco.git
 cd eco`}</code>
           </pre>
         </li>
-        
-        <li>Install dependencies:
-          <pre style={{ backgroundColor: '#1a1a1a', padding: '1rem', borderRadius: '0.5rem', fontSize: '0.9rem' }}>
+        <li>
+          Install dependencies:
+          <pre className={CODE_BLOCK_CLASSES}>
             <code>pnpm install</code>
           </pre>
         </li>
-        
-        <li>Start the Shell:
-          <pre style={{ backgroundColor: '#1a1a1a', padding: '1rem', borderRadius: '0.5rem', fontSize: '0.9rem' }}>
+        <li>
+          Start the Shell:
+          <pre className={CODE_BLOCK_CLASSES}>
             <code>pnpm dev --filter @eco/shell</code>
           </pre>
         </li>
@@ -50,15 +55,17 @@ cd eco`}</code>
       </ProvenanceNote>
       
       <h2>⏱️ 20–40 min: Open the Docs</h2>
-      
+
       <ul>
-        <li>Run the Docs app:
-          <pre style={{ backgroundColor: '#1a1a1a', padding: '1rem', borderRadius: '0.5rem', fontSize: '0.9rem' }}>
+        <li>
+          Run the Docs app:
+          <pre className={CODE_BLOCK_CLASSES}>
             <code>pnpm dev --filter @eco/docs</code>
           </pre>
         </li>
-        
-        <li>Visit <code>http://localhost:3001</code></li>
+        <li>
+          Visit <code>http://localhost:3001</code>
+        </li>
         <li>Explore the Docs Index Power Page</li>
         <li>Click through Guides, Architecture, Agents.</li>
       </ul>
@@ -71,9 +78,10 @@ cd eco`}</code>
       
       <ul>
         <li>Edit <code>docs/guides/getting-started.mdx</code></li>
-        <li>Add a line under "Getting Started"</li>
-        <li>Commit with provenance:
-          <pre style={{ backgroundColor: '#1a1a1a', padding: '1rem', borderRadius: '0.5rem', fontSize: '0.9rem' }}>
+        <li>Add a line under &quot;Getting Started&quot;</li>
+        <li>
+          Commit with provenance:
+          <pre className={CODE_BLOCK_CLASSES}>
             <code>{`git add docs/guides/getting-started.mdx
 git commit -m "docs: personalize getting started guide"
 git push origin main`}</code>
@@ -82,12 +90,12 @@ git push origin main`}</code>
       </ul>
       
       <ProvenanceNote>
-        Every commit is a provenance seal. Your first contribution is now part of Eco's history.
+        Every commit is a provenance seal. Your first contribution is now part of Eco&apos;s history.
       </ProvenanceNote>
       
       <h2>⏱️ 55–60 min: Celebrate 🎉</h2>
       
-      <p>You've:</p>
+      <p>You&apos;ve:</p>
       <ul>
         <li>✅ Cloned the repo</li>
         <li>✅ Installed dependencies</li>
@@ -97,7 +105,7 @@ git push origin main`}</code>
       </ul>
       
       <ProvenanceNote>
-        Welcome to Eco. You're now a contributor.
+        Welcome to Eco. You&apos;re now a contributor.
       </ProvenanceNote>
     </main>
   )

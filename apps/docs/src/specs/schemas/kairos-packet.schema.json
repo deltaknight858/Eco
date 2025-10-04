@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oursynth.local/specs/kairos-packet.schema.json",
+  "title": "KairosPacketV1",
+  "type": "object",
+  "required": ["kairosVersion", "moment", "context", "invocation"],
+  "properties": {
+    "kairosVersion": { "type": "string" },
+    "moment": { "type": "string", "enum": ["nearFailure", "subOptimal", "criticalFailure"] },
+    "context": {
+      "type": "object",
+      "required": ["agentId", "taskId", "gate", "proximity"],
+      "properties": {
+        "agentId": { "type": "string" },
+        "taskId": { "type": "string" },
+        "gate": { "type": "string", "enum": ["Bronze", "Silver", "Gold", "bronze", "silver", "gold"] },
+        "proximity": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "invocation": {
+      "type": "object",
+      "required": ["refineContract"],
+      "properties": {
+        "refineContract": {
+          "type": "object",
+          "required": ["taskType", "originalTaskRef", "failedResultRef", "constraints"],
+          "properties": {
+            "taskType": { "type": "string", "enum": ["refine"] },
+            "originalTaskRef": { "type": "string" },
+            "failedResultRef": { "type": "string" },
+            "constraints": {
+              "type": "object",
+              "required": ["timeboxMs", "mustAddTests"],
+              "properties": {
+                "timeboxMs": { "type": "number", "minimum": 0 },
+                "mustAddTests": { "type": "boolean" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -3,11 +3,18 @@
  * Glass morphism floating button leveraging RadialCommandCenter pattern
  */
 
-import React, { useState, useEffect } from 'react'
+'use client'
+
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { cn } from '@eco/halo-components'
 import { RadialCommandCenter } from '../assist'
-// If the file does not exist, create RadialCommandCenter.tsx in ../assist/ or adjust the path accordingly.
-// Define missing types locally (or update import path if types exist elsewhere)
-export type ProvenanceTier = 'bronze' | 'silver' | 'gold'
+import { useAgentActivity } from '../hooks/useAgentActivity'
+import { NeonGlassIconStream, type NeonGlassStatus } from '../primitives/NeonGlassIconStream'
+import type {
+  AgentEvent,
+  AgentEventSeverity,
+  ProvenanceTier
+} from '../../types'
 
 export interface UserContext {
   completedPathways: number
@@ -26,7 +33,57 @@ export interface PathwaySuggestion {
   estimatedDuration: number
   recommendedTier: ProvenanceTier
   priority: number
+  capsuleId?: string
+  agentIds?: string[]
 }
+
+interface SuggestionStreamInfo {
+  intensity: number
+  severity?: AgentEventSeverity
+  provenanceTier?: ProvenanceTier
+  status: NeonGlassStatus
+  lastEvent?: AgentEvent
+  eventCount: number
+}
+
+const STREAM_WINDOW_MS = 60_000
+
+const statusLabels: Record<NeonGlassStatus, string> = {
+  idle: 'Idle',
+  active: 'Surging',
+  error: 'Attention needed',
+  success: 'Flowing'
+}
+
+const tierClassMap: Record<ProvenanceTier, string> = {
+  bronze: 'hint-action-bronze',
+  silver: 'hint-action-silver',
+  gold: 'hint-action-gold'
+}
+
+const getTierLevel = (tier: ProvenanceTier): number => {
+  switch (tier) {
+    case 'bronze':
+      return 1
+    case 'silver':
+      return 2
+    case 'gold':
+      return 3
+    default:
+      return 1
+  }
+}
+
+const determineVisibility = (context: UserContext, suggestions: PathwaySuggestion[]): boolean => {
+  if (context.completedPathways < 3) return true
+  if (context.timeOnCurrentPage > 120000) return true
+  if (suggestions.some(s => s.priority > 80)) return true
+  if (context.requestedGuidance) return true
+
+  return false
+}
+
+const getSuggestionKey = (suggestion: PathwaySuggestion) => suggestion.capsuleId ?? suggestion.id
 
 interface PathwaysLauncherProps {
   suggestedPathways: PathwaySuggestion[]
@@ -44,92 +101,204 @@ export const PathwaysLauncher: React.FC<PathwaysLauncherProps> = ({
   const [isVisible, setIsVisible] = useState(false)
   const [contextualSuggestions, setContextualSuggestions] = useState<PathwaySuggestion[]>([])
 
-  // Smart visibility based on user context
   useEffect(() => {
     const shouldShow = determineVisibility(context, suggestedPathways)
     setIsVisible(shouldShow)
   }, [context, suggestedPathways])
 
-  // Filter and prioritize suggestions based on context
   useEffect(() => {
     const filtered = suggestedPathways
       .filter(pathway => getTierLevel(pathway.recommendedTier) <= getTierLevel(tier))
       .sort((a, b) => b.priority - a.priority)
-      .slice(0, 6) // Show top 6 suggestions
+      .slice(0, 6)
 
     setContextualSuggestions(filtered)
   }, [suggestedPathways, tier])
 
-  const getTierLevel = (tier: ProvenanceTier): number => {
-    switch (tier) {
-      case 'bronze': return 1
-      case 'silver': return 2  
-      case 'gold': return 3
-      default: return 1
+  const trackedCapsuleIds = useMemo(() => {
+    return contextualSuggestions
+      .map(suggestion => getSuggestionKey(suggestion))
+      .filter((key): key is string => Boolean(key))
+  }, [contextualSuggestions])
+
+  const trackedAgentIds = useMemo(() => {
+    return contextualSuggestions
+      .flatMap(suggestion => suggestion.agentIds ?? [])
+      .filter((agentId, index, all) => agentId && all.indexOf(agentId) === index)
+  }, [contextualSuggestions])
+
+  const {
+    activities,
+    recentEvents,
+    isConnected,
+    connectionQuality,
+    transport,
+    latency,
+    mode
+  } = useAgentActivity({
+    filter: trackedCapsuleIds.length > 0 ? { capsuleIds: trackedCapsuleIds } : undefined,
+    agents: trackedAgentIds.length > 0 ? trackedAgentIds : undefined,
+    bufferSize: 400,
+    windowMs: STREAM_WINDOW_MS,
+    enabled: contextualSuggestions.length > 0
+  })
+
+  const suggestionActivity = useMemo(() => {
+    if (contextualSuggestions.length === 0) {
+      return {}
     }
-  }
 
-  const determineVisibility = (context: UserContext, suggestions: PathwaySuggestion[]): boolean => {
-    // Show launcher if:
-    // 1. User is new (less than 3 completed pathways)
-    // 2. User is stuck (same page for >2 minutes)
-    // 3. User has high-priority suggestions available
-    // 4. User explicitly requested guidance
+    const eventsByCapsule = new Map<string, AgentEvent[]>()
+    recentEvents.forEach(event => {
+      const capsuleKey = event.capsuleId ?? event.payload?.capsuleId
+      if (!capsuleKey) return
+      const bucket = eventsByCapsule.get(capsuleKey) ?? []
+      bucket.push(event)
+      eventsByCapsule.set(capsuleKey, bucket)
+    })
 
-    if (context.completedPathways < 3) return true
-    if (context.timeOnCurrentPage > 120000) return true // 2 minutes
-    if (suggestions.some(s => s.priority > 80)) return true
-    if (context.requestedGuidance) return true
+    return contextualSuggestions.reduce<Record<string, SuggestionStreamInfo>>((acc, suggestion) => {
+      const key = getSuggestionKey(suggestion)
+      if (!key) {
+        return acc
+      }
 
-    return false
-  }
+      const agentSnapshots = (suggestion.agentIds ?? [])
+        .map(agentId => activities[agentId])
+        .filter((snapshot): snapshot is typeof activities[string] => Boolean(snapshot))
 
-  const handlePathwaySelect = (pathwayId: string) => {
+      const capsuleEvents = [...(eventsByCapsule.get(key) ?? [])]
+      capsuleEvents.sort((a, b) => a.timestamp - b.timestamp)
+
+      const lastAgentEvent = agentSnapshots
+        .map(snapshot => snapshot.lastEvent)
+        .filter((event): event is AgentEvent => Boolean(event))
+        .sort((a, b) => a.timestamp - b.timestamp)
+        .pop()
+
+      const combinedEvents: AgentEvent[] = [...capsuleEvents]
+      if (lastAgentEvent) {
+        combinedEvents.push(lastAgentEvent)
+      }
+      combinedEvents.sort((a, b) => a.timestamp - b.timestamp)
+      const lastEvent = combinedEvents.length > 0 ? combinedEvents[combinedEvents.length - 1] : undefined
+
+      const intensityFromAgents = agentSnapshots.reduce((max, snapshot) => Math.max(max, snapshot.intensity), 0)
+      const intensityFromEvents = capsuleEvents.length > 0 ? Math.min(100, capsuleEvents.length * 18) : 0
+      const intensity = Math.max(intensityFromAgents, intensityFromEvents)
+
+      const severity = lastEvent?.severity ?? agentSnapshots.find(snapshot => snapshot.severity)?.severity
+      const provenanceTier = lastEvent?.provenanceTier ?? agentSnapshots.find(snapshot => snapshot.provenanceTier)?.provenanceTier
+
+      let status: NeonGlassStatus = 'idle'
+      if (severity === 'error') {
+        status = 'error'
+      } else if (intensity > 70) {
+        status = 'active'
+      } else if (intensity > 35) {
+        status = 'success'
+      }
+
+      acc[key] = {
+        intensity,
+        severity,
+        provenanceTier,
+        status,
+        lastEvent,
+        eventCount: capsuleEvents.length
+      }
+
+      return acc
+    }, {})
+  }, [activities, contextualSuggestions, recentEvents])
+
+  const handlePathwaySelect = useCallback((pathwayId: string) => {
     const pathway = contextualSuggestions.find(p => p.id === pathwayId)
     if (pathway) {
       onLaunchPathway(pathway)
     }
-  }
+  }, [contextualSuggestions, onLaunchPathway])
+
+  const actions = useMemo(() => {
+    return contextualSuggestions.map(pathway => {
+      const key = getSuggestionKey(pathway)
+      const stream = key ? suggestionActivity[key] : undefined
+      const intensity = stream?.intensity ?? 0
+      const liveSegment = stream?.eventCount ? `${stream.eventCount} live` : null
+      const detailSegments = [
+        pathway.description,
+        `${pathway.estimatedDuration} min`,
+        pathway.difficulty,
+        liveSegment
+      ].filter(Boolean)
+      const description = detailSegments.join(' • ')
+      const badgeValue = stream ? `${Math.round(intensity)}%` : pathway.difficulty.toUpperCase()
+      const iconNode = (
+        <NeonGlassIconStream
+          icon={<span aria-hidden>{pathway.icon}</span>}
+          status={stream?.status ?? (isConnected ? 'idle' : 'idle')}
+          severity={stream?.severity}
+          provenanceTier={stream?.provenanceTier ?? pathway.recommendedTier}
+          intensity={intensity}
+          glow={isConnected}
+          size="sm"
+        />
+      )
+
+      return {
+        id: pathway.id,
+        icon: iconNode,
+        label: pathway.title,
+        description,
+        badge: badgeValue,
+        onClick: () => handlePathwaySelect(pathway.id),
+        disabled: getTierLevel(pathway.recommendedTier) > getTierLevel(tier),
+        metadata: {
+          duration: pathway.estimatedDuration,
+          category: pathway.category,
+          tier: pathway.recommendedTier,
+          intensity,
+          status: stream?.status ?? 'idle'
+        }
+      }
+    })
+  }, [contextualSuggestions, handlePathwaySelect, isConnected, suggestionActivity, tier])
 
   if (!isVisible || contextualSuggestions.length === 0) {
     return null
   }
 
-  const tierColors = {
-    bronze: '#FFA500',
-    silver: '#C0C0C0', 
-    gold: '#FFD700'
-  }
-
-  const actions = contextualSuggestions.map(pathway => ({
-    id: pathway.id,
-    icon: pathway.icon,
-    label: pathway.title,
-    description: pathway.description,
-    color: tierColors[pathway.recommendedTier],
-    badge: pathway.difficulty,
-    onClick: () => handlePathwaySelect(pathway.id),
-  disabled: getTierLevel(pathway.recommendedTier) > getTierLevel(tier),
-    metadata: {
-      duration: pathway.estimatedDuration,
-      category: pathway.category,
-      tier: pathway.recommendedTier
-    }
-  }))
+  const topSuggestion = contextualSuggestions[0]
+  const topSuggestionKey = topSuggestion ? getSuggestionKey(topSuggestion) : undefined
+  const topStream = topSuggestionKey ? suggestionActivity[topSuggestionKey] : undefined
+  const topIntensity = topStream ? Math.round(topStream.intensity) : 0
 
   return (
     <>
+      <div className="pathway-stream-status">
+        <span className={cn('status-dot', isConnected ? 'status-dot-live' : 'status-dot-idle')} />
+        <span className="status-text">
+          {isConnected
+            ? `Live ${transport.toUpperCase()} • Signal ${Math.round(connectionQuality)}%`
+            : 'Stream warming up'}
+        </span>
+        {typeof latency === 'number' && (
+          <span className="status-metric">{`${Math.round(latency)}ms`}</span>
+        )}
+        {mode === 'demo' && <span className="status-badge">Demo</span>}
+      </div>
+
       <RadialCommandCenter
         variant="pathways-wizard"
         position="bottom-right"
         offset={{ x: 24, y: 24 }}
         actions={actions}
         tier={tier}
-        animated={true}
+        animated
         className="pathways-launcher"
         triggerIcon="🧙‍♂️"
         triggerLabel="Pathways Guide"
-        triggerDescription="Need guidance? I'm here to help!"
+        triggerDescription="Need guidance? I&apos;m here to help!"
       />
 
       {/* Contextual Hint Bubble */}
@@ -142,20 +311,30 @@ export const PathwaysLauncher: React.FC<PathwaysLauncherProps> = ({
             </div>
             <div className="hint-body">
               <p className="hint-text">
-                Ready for your next adventure? I've found {contextualSuggestions.length} guided pathways that match your experience level.
+                Ready for your next adventure? I&apos;ve found {contextualSuggestions.length} guided pathways that match your experience level.
               </p>
               <div className="top-suggestion">
                 <div className="suggestion-title">
-                  {contextualSuggestions[0]?.icon} {contextualSuggestions[0]?.title}
+                  {topSuggestion?.icon} {topSuggestion?.title}
                 </div>
                 <div className="suggestion-meta">
-                  {contextualSuggestions[0]?.estimatedDuration}min • {contextualSuggestions[0]?.difficulty}
+                  {topSuggestion?.estimatedDuration}min • {topSuggestion?.difficulty}
+                </div>
+                <div className="suggestion-stream">
+                  <span className={cn('stream-dot', `stream-dot-${topStream?.status ?? 'idle'}`)} />
+                  <span className="stream-text">
+                    {topStream ? `${topIntensity}% ${statusLabels[topStream.status]}` : 'Awaiting live activity'}
+                  </span>
                 </div>
               </div>
             </div>
-            <button 
-              onClick={() => handlePathwaySelect(contextualSuggestions[0]?.id)}
-              className="hint-action"
+            <button
+              onClick={() => {
+                if (topSuggestion) {
+                  handlePathwaySelect(topSuggestion.id)
+                }
+              }}
+              className={cn('hint-action', tierClassMap[tier] ?? 'hint-action-bronze')}
             >
               Start Journey
             </button>
@@ -166,6 +345,54 @@ export const PathwaysLauncher: React.FC<PathwaysLauncherProps> = ({
       <style>{`
         .pathways-launcher {
           z-index: 1000;
+        }
+
+        .pathway-stream-status {
+          position: fixed;
+          right: 24px;
+          bottom: 90px;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.4rem 0.75rem;
+          border-radius: 9999px;
+          background: rgba(15, 23, 42, 0.75);
+          border: 1px solid rgba(34, 211, 238, 0.25);
+          backdrop-filter: blur(12px);
+          color: #e2e8f0;
+          font-size: 0.75rem;
+          z-index: 999;
+        }
+
+        .status-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 9999px;
+        }
+
+        .status-dot-live {
+          background: rgba(34, 197, 94, 0.9);
+          box-shadow: 0 0 12px rgba(34, 197, 94, 0.6);
+        }
+
+        .status-dot-idle {
+          background: rgba(148, 163, 184, 0.6);
+        }
+
+        .status-text {
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        }
+
+        .status-metric {
+          color: #bae6fd;
+        }
+
+        .status-badge {
+          font-size: 0.65rem;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          color: #facc15;
         }
 
         .pathway-hint-bubble {
@@ -230,8 +457,6 @@ export const PathwaysLauncher: React.FC<PathwaysLauncherProps> = ({
         .hint-action {
           width: 100%;
           padding: 0.5rem;
-          background: ${tierColors[tier]};
-          color: black;
           border: none;
           border-radius: 8px;
           font-weight: 500;
@@ -241,8 +466,63 @@ export const PathwaysLauncher: React.FC<PathwaysLauncherProps> = ({
         }
 
         .hint-action:hover {
-          opacity: 0.9;
+          opacity: 0.92;
           transform: translateY(-1px);
+        }
+
+        .hint-action-bronze {
+          background: linear-gradient(135deg, rgba(217, 119, 6, 0.95), rgba(249, 115, 22, 0.95));
+          color: #111827;
+        }
+
+        .hint-action-silver {
+          background: linear-gradient(135deg, rgba(209, 213, 219, 0.95), rgba(156, 163, 175, 0.95));
+          color: #111827;
+        }
+
+        .hint-action-gold {
+          background: linear-gradient(135deg, rgba(253, 224, 71, 0.95), rgba(250, 204, 21, 0.95));
+          color: #111827;
+        }
+
+        .hint-action:focus-visible {
+          outline: 2px solid rgba(56, 189, 248, 0.6);
+          outline-offset: 2px;
+        }
+
+        .suggestion-stream {
+          display: flex;
+          align-items: center;
+          gap: 0.4rem;
+          font-size: 0.75rem;
+          color: #bfdbfe;
+        }
+
+        .stream-text {
+          font-weight: 500;
+          letter-spacing: 0.02em;
+        }
+
+        .stream-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 9999px;
+          background: rgba(148, 163, 184, 0.5);
+        }
+
+        .stream-dot-active {
+          background: rgba(56, 189, 248, 0.95);
+          box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+        }
+
+        .stream-dot-success {
+          background: rgba(34, 197, 94, 0.85);
+          box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+
+        .stream-dot-error {
+          background: rgba(248, 113, 113, 0.9);
+          box-shadow: 0 0 10px rgba(248, 113, 113, 0.6);
         }
 
         @keyframes slide-in-up {
@@ -258,6 +538,11 @@ export const PathwaysLauncher: React.FC<PathwaysLauncherProps> = ({
 
         /* Responsive adjustments */
         @media (max-width: 768px) {
+          .pathway-stream-status {
+            right: 16px;
+            bottom: 84px;
+          }
+
           .pathway-hint-bubble {
             right: 16px;
             bottom: 100px;
@@ -281,7 +566,9 @@ export const defaultPathwaySuggestions: PathwaySuggestion[] = [
     difficulty: 'intermediate',
     estimatedDuration: 45,
     recommendedTier: 'bronze',
-    priority: 90
+    priority: 90,
+    capsuleId: 'capsule-lifecycle',
+    agentIds: ['agent.capsule.lifecycle']
   },
   {
     id: 'contributor-onboarding',
@@ -292,7 +579,9 @@ export const defaultPathwaySuggestions: PathwaySuggestion[] = [
     difficulty: 'beginner',
     estimatedDuration: 30,
     recommendedTier: 'bronze',
-    priority: 95
+    priority: 95,
+    capsuleId: 'contributor-first-hour',
+    agentIds: ['agent.community.welcome']
   },
   {
     id: 'multi-agent-orchestration',
@@ -303,7 +592,9 @@ export const defaultPathwaySuggestions: PathwaySuggestion[] = [
     difficulty: 'advanced',
     estimatedDuration: 60,
     recommendedTier: 'silver',
-    priority: 70
+    priority: 70,
+    capsuleId: 'orchestra-suite',
+    agentIds: ['agent.orchestra.conductor', 'agent.orchestra.arranger']
   },
   {
     id: 'marketplace-publisher',
@@ -314,7 +605,9 @@ export const defaultPathwaySuggestions: PathwaySuggestion[] = [
     difficulty: 'intermediate', 
     estimatedDuration: 25,
     recommendedTier: 'silver',
-    priority: 75
+    priority: 75,
+    capsuleId: 'marketplace-publisher',
+    agentIds: ['agent.marketplace.curator']
   },
   {
     id: 'provenance-expert',
@@ -325,7 +618,9 @@ export const defaultPathwaySuggestions: PathwaySuggestion[] = [
     difficulty: 'advanced',
     estimatedDuration: 40,
     recommendedTier: 'gold',
-    priority: 85
+    priority: 85,
+    capsuleId: 'provenance-expert',
+    agentIds: ['agent.provenance.auditor']
   },
   {
     id: 'collaboration-master',
@@ -336,7 +631,9 @@ export const defaultPathwaySuggestions: PathwaySuggestion[] = [
     difficulty: 'intermediate',
     estimatedDuration: 35,
     recommendedTier: 'silver', 
-    priority: 65
+    priority: 65,
+    capsuleId: 'collaboration-master',
+    agentIds: ['agent.collab.facilitator', 'agent.collab.sync']
   }
 ]
 

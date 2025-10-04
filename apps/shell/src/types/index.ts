@@ -22,5 +22,8 @@ export type {
   StreamConnection,
   PathwayStepProgress,
   StreamSubscription,
-  EventCallback
+  EventCallback,
+  AgentStreamTransport,
+  AgentStreamConfiguration,
+  AgentActivitySnapshot
 } from './agentStreams'

@@ -6,7 +6,8 @@ import type {
   AgentStreamFilter,
   AgentStreamOptions,
   ConnectionStatus,
-  EventCallback
+  EventCallback,
+  AgentStreamTransport
 } from '../../types'
 
 export interface UseAgentStreamOptions extends AgentStreamOptions {
@@ -20,6 +21,10 @@ interface AgentStreamState {
   isConnected: boolean
   connectionQuality: number
   lastEvent?: AgentEvent
+  transport: AgentStreamTransport
+  latency?: number
+  mode: 'live' | 'demo'
+  reconnectAttempts: number
 }
 
 const DEFAULT_STATE: AgentStreamState = {
@@ -27,7 +32,11 @@ const DEFAULT_STATE: AgentStreamState = {
   agentStatuses: {},
   isConnected: false,
   connectionQuality: 0,
-  lastEvent: undefined
+  lastEvent: undefined,
+  transport: 'mock',
+  latency: undefined,
+  mode: 'demo',
+  reconnectAttempts: 0
 }
 
 export function useAgentStream(options: UseAgentStreamOptions = {}): AgentStreamState & {
@@ -76,7 +85,11 @@ export function useAgentStream(options: UseAgentStreamOptions = {}): AgentStream
           agentStatuses: nextStatuses,
           isConnected: prev.isConnected,
           connectionQuality: prev.connectionQuality,
-          lastEvent: event
+          lastEvent: event,
+          transport: prev.transport,
+          latency: prev.latency,
+          mode: prev.mode,
+          reconnectAttempts: prev.reconnectAttempts
         }
       })
     }
@@ -88,7 +101,11 @@ export function useAgentStream(options: UseAgentStreamOptions = {}): AgentStream
       setState(prev => ({
         ...prev,
         isConnected: status.connected,
-        connectionQuality: status.quality
+        connectionQuality: status.quality,
+        transport: status.transport,
+        latency: status.latency,
+        mode: status.mode,
+        reconnectAttempts: status.reconnectAttempts
       }))
     })
 
@@ -98,7 +115,7 @@ export function useAgentStream(options: UseAgentStreamOptions = {}): AgentStream
       unsubscribeStatus()
       setState(() => ({ ...DEFAULT_STATE }))
     }
-  }, [options.enabled, options.filter, options.bufferSize, options.realtime, options.throttleMs, service])
+  }, [options.enabled, options.filter, options.bufferSize, options.realtime, options.throttleMs, options.transport, options.reconnectInterval, service])
 
   const updateFilter = useCallback((filter: AgentStreamFilter) => {
     filterRef.current = filter
