@@ -3,7 +3,7 @@
 
 export type AgentEventType = 'status' | 'provenance' | 'capsule' | 'orchestration' | 'marketplace';
 
-export interface AgentEvent<T = Record<string, unknown>> {
+export interface AgentEvent<T = any> {
   id: string;
   type: AgentEventType;
   agent: string;

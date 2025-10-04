@@ -1,6 +1,6 @@
 import { MarketplaceCard } from '../../../components/MarketplaceCard'
 import { ProvenanceNote } from '../../../components/ProvenanceNote'
-import { Badge } from '../../../../../shell/src/components/Badge'
+import { HaloBadge } from '@eco/halo-components'
 
 export default function MarketplacePage() {
   return (
@@ -21,15 +21,15 @@ export default function MarketplacePage() {
         
         <div className="space-y-4 mb-8">
           <div className="flex items-center gap-3">
-            <Badge tier="bronze" label="BRONZE" />
+            <HaloBadge variant="primary">BRONZE</HaloBadge>
             <span>Entry‑level contributions and emerging creators</span>
           </div>
           <div className="flex items-center gap-3">
-            <Badge tier="silver" label="SILVER" />
+            <HaloBadge variant="secondary">SILVER</HaloBadge>
             <span>Trusted contributors with proven track records</span>
           </div>
           <div className="flex items-center gap-3">
-            <Badge tier="gold" label="GOLD" />
+            <HaloBadge variant="outline">GOLD</HaloBadge>
             <span>Premium, provenance‑sealed capsules and elite creators</span>
           </div>
         </div>

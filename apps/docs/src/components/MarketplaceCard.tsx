@@ -1,5 +1,4 @@
-import { HaloCard } from '@eco/halo-components'
-import { Badge } from '../../../shell/src/components/Badge'
+import { HaloCard, HaloBadge } from '@eco/halo-components'
 
 interface MarketplaceCardProps {
   title: string
@@ -13,10 +12,12 @@ export const MarketplaceCard = ({ title, description, tier }: MarketplaceCardPro
     glow="primary"
     className="transition-all duration-200 hover:shadow-lg"
   >
-    <h3 className="text-xl font-bold" style={{ color: '#00E6C4' }}>{title}</h3>
+    <h3 className="text-xl font-bold text-primary-400">{title}</h3>
     <p className="text-sm text-white mt-2">{description}</p>
     <div className="mt-4">
-      <Badge tier={tier} label={tier.toUpperCase()} />
+      <HaloBadge variant="primary" className={`tier-${tier}`}>
+        {tier.toUpperCase()}
+      </HaloBadge>
     </div>
   </HaloCard>
 )

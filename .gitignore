@@ -45,3 +45,6 @@ Thumbs.db
 *.swp
 *.swo
 *.tmp
+
+# Legacy folder (do not track)
+legacy/
