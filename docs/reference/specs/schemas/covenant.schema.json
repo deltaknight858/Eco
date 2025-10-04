@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oursynth.local/specs/covenant.schema.json",
+  "title": "ConductorCovenantV1",
+  "type": "object",
+  "required": ["covenantVersion", "tiers", "decisionPolicy", "r3"],
+  "properties": {
+    "covenantVersion": { "type": "string" },
+    "tiers": {
+      "type": "object",
+      "required": ["bronze", "silver", "gold"],
+      "properties": {
+        "bronze": { "$ref": "#/definitions/tier" },
+        "silver": { "$ref": "#/definitions/tier" },
+        "gold": { "$ref": "#/definitions/tier" }
+      },
+      "additionalProperties": false
+    },
+    "decisionPolicy": {
+      "type": "object",
+      "properties": {
+        "accept": { "$ref": "#/definitions/stringArray" },
+        "mergeStaging": { "$ref": "#/definitions/stringArray" },
+        "publishProduction": { "$ref": "#/definitions/stringArray" },
+        "reject": { "$ref": "#/definitions/stringArray" },
+        "escalate": { "$ref": "#/definitions/stringArray" }
+      },
+      "additionalProperties": false
+    },
+    "r3": {
+      "type": "object",
+      "required": ["trigger", "refineContract.taskType", "simulation.required"],
+      "properties": {
+        "trigger": { "$ref": "#/definitions/stringArray" },
+        "refineContract.taskType": { "type": "string", "enum": ["refine"] },
+        "simulation.required": { "$ref": "#/definitions/stringArray" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "tier": {
+      "type": "object",
+      "required": ["required", "evidence"],
+      "properties": {
+        "required": { "$ref": "#/definitions/stringArray" },
+        "evidence": { "$ref": "#/definitions/stringArray" }
+      },
+      "additionalProperties": false
+    },
+    "stringArray": { "type": "array", "items": { "type": "string" } }
+  }
+}

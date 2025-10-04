@@ -1,0 +1,21 @@
+{
+  "oathVersion": "1.0",
+  "taskId": "T-2025-10-04-0420",
+  "status": "success",
+  "artifacts": [],
+  "selfChecks": [
+    {"name": "schema", "result": "pass", "evidence": "AgentResultV1 validated"},
+    {"name": "build", "result": "pass", "evidence": "tsc + bundler ok"},
+    {"name": "lint", "result": "pass", "evidence": "eslint ok"},
+    {"name": "unit", "result": "pass", "evidence": "jest touched modules green"},
+    {"name": "coverage", "result": "warn", "evidence": "78% changed lines; waiver W-145 attached"},
+    {"name": "secrets", "result": "pass", "evidence": "gitleaks ok"},
+    {"name": "capsule", "result": "pass", "evidence": "manifest + signature; replay steps verified"}
+  ],
+  "provenance": {
+    "tier": "silver",
+    "signature": "ed25519:...",
+    "chain": ["agent.signature", "capsule.signature", "conductor.policyRef"],
+    "memoryLinks": ["node://tasks/T-2025-10-04-0420", "node://agents/aeco-01"]
+  }
+}

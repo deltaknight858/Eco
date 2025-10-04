@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "taskId": "T-2025-10-04-0420",
+  "summary": "Silver gate failed: coverage < 0.80; performance budget exceeded by 7%.",
+  "failedChecks": [
+    {"gate": "Silver", "check": "Coverage", "evidence": "changedLines=0.78", "fixHint": "Add edge-case tests for module X; focus on early returns."},
+    {"gate": "Silver", "check": "Performance", "evidence": "baseline=120ms, current=129ms", "fixHint": "Cache Y; reduce Z recomputation."}
+  ],
+  "blocking": true,
+  "proposedNextSteps": [
+    "Generate unit tests via TestGenerator for module X",
+    "Introduce memoization for selector Z",
+    "Attach updated perf baseline to policy.md"
+  ],
+  "timeboxMs": 900000
+}

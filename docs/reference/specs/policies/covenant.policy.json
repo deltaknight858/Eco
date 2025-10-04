@@ -1,0 +1,63 @@
+{
+  "covenantVersion": "1.0",
+  "tiers": {
+    "bronze": {
+      "required": [
+        "memory.persisted",
+        "build.green",
+        "lint.clean",
+        "tests.touched.green",
+        "sbom.delta"
+      ],
+      "evidence": ["artifacts", "diffSummary", "logs"]
+    },
+    "silver": {
+      "required": [
+        "coverage.changedLines>=0.80|waiver",
+        "secrets.clean",
+        "vulns.none.highOrCritical",
+        "perf.withinBudget",
+        "capsule.signed.reproducible"
+      ],
+      "evidence": [
+        "coverageReport",
+        "scanReports",
+        "perfMetrics",
+        "capsuleManifest",
+        "signature"
+      ]
+    },
+    "gold": {
+      "required": [
+        "smoke.prodLike.green",
+        "rollback.rehearsed",
+        "provenance.chain.verified",
+        "conductor.countersign",
+        "observability.slo.reviewed"
+      ],
+      "evidence": [
+        "smokeOutput",
+        "rollbackScript",
+        "chainReport",
+        "countersignature",
+        "dashboardDiffs"
+      ]
+    }
+  },
+  "decisionPolicy": {
+    "accept": ["bronze.pass", "intent.acceptanceCriteria.met"],
+    "mergeStaging": ["silver.pass", "riskRegister.updated"],
+    "publishProduction": ["gold.pass"],
+    "reject": ["bronze.fail", "evidence.missing", "contract.drift"],
+    "escalate": ["security.exception", "novel.architecture.change"]
+  },
+  "r3": {
+    "trigger": ["nearFailure", "subOptimal", "criticalFailure"],
+    "refineContract.taskType": "refine",
+    "simulation.required": [
+      "originalFailingTask",
+      "regressionSuite",
+      "edgeVariants"
+    ]
+  }
+}

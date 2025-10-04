@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://oursynth.local/specs/agent-result.schema.json",
+  "title": "AgentResultV1",
+  "type": "object",
+  "required": ["taskId", "status", "artifacts", "selfChecks"],
+  "properties": {
+    "version": { "type": "string", "default": "1.0" },
+    "taskId": { "type": "string" },
+    "status": { "type": "string", "enum": ["success", "needs-work", "failed"] },
+    "artifacts": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+    "diffSummary": { "type": ["string", "null"] },
+    "logs": { "type": "array", "items": { "type": "string" } },
+    "metrics": { "type": "object", "additionalProperties": true },
+    "selfChecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "result"],
+        "properties": {
+          "name": { "type": "string" },
+          "result": { "type": "string", "enum": ["pass", "fail", "warn"] },
+          "evidence": { "type": "string" },
+          "score": { "type": ["number", "null"] }
+        }
+      }
+    },
+    "provenance": { "type": "object", "additionalProperties": true }
+  },
+  "additionalProperties": false
+}
